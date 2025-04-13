@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <!-- 배경 -->
+  <rect width="400" height="300" fill="#f5faff" />
+  
+  <!-- 인테리어 패턴 배경 -->
+  <g opacity="0.1">
+    <pattern id="interiorPattern" width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect width="20" height="20" fill="none" />
+      <circle cx="10" cy="10" r="2" fill="#4ca5d0" />
+    </pattern>
+    <rect width="400" height="300" fill="url(#interiorPattern)" />
+  </g>
+  
+  <!-- 계약서 -->
+  <g transform="translate(50, 30)">
+    <rect x="0" y="0" width="300" height="240" rx="5" ry="5" fill="white" stroke="#cccccc" stroke-width="2" />
+    
+    <!-- 계약서 헤더 -->
+    <rect x="0" y="0" width="300" height="40" fill="#4ca5d0" rx="5" ry="5" />
+    <rect x="0" y="35" width="300" height="5" fill="#4ca5d0" />
+    <text x="150" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">인테리어 공사 계약서</text>
+    
+    <!-- 계약서 내용 -->
+    <g transform="translate(20, 50)">
+      <!-- 고객 정보 -->
+      <rect x="0" y="5" width="260" height="40" fill="#f9f9f9" stroke="#eee" stroke-width="1" rx="3" ry="3" />
+      <text x="10" y="25" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#333">고객정보</text>
+      <line x1="70" y1="15" x2="70" y2="35" stroke="#eee" stroke-width="1" />
+      <text x="80" y="25" font-family="Arial, sans-serif" font-size="8" fill="#666">이름:</text>
+      <line x1="110" y1="25" x2="180" y2="25" stroke="#aaa" stroke-width="1" />
+      <text x="190" y="25" font-family="Arial, sans-serif" font-size="8" fill="#666">연락처:</text>
+      <line x1="225" y1="25" x2="250" y2="25" stroke="#aaa" stroke-width="1" />
+      
+      <!-- 공사 정보 -->
+      <text x="0" y="65" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#4ca5d0">1. 공사 내용</text>
+      <line x1="0" y1="70" x2="260" y2="70" stroke="#eee" stroke-width="1" />
+      
+      <!-- 공사 항목표 -->
+      <rect x="0" y="80" width="260" height="60" fill="none" stroke="#ddd" stroke-width="1" />
+      <rect x="0" y="80" width="260" height="15" fill="#f5f5f5" stroke="#ddd" stroke-width="1" />
+      <line x1="0" y1="110" x2="260" y2="110" stroke="#ddd" stroke-width="1" />
+      <line x1="0" y1="125" x2="260" y2="125" stroke="#ddd" stroke-width="1" />
+      <line x1="150" y1="80" x2="150" y2="140" stroke="#ddd" stroke-width="1" />
+      <line x1="205" y1="80" x2="205" y2="140" stroke="#ddd" stroke-width="1" />
+      
+      <text x="75" y="91" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="#666">공사항목</text>
+      <text x="177.5" y="91" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="#666">단가</text>
+      <text x="232.5" y="91" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="#666">금액</text>
+      
+      <!-- 공사 기간 및 대금 -->
+      <text x="0" y="160" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#4ca5d0">2. 공사 기간 및 대금</text>
+      <line x1="0" y1="165" x2="260" y2="165" stroke="#eee" stroke-width="1" />
+      
+      <rect x="0" y="175" width="260" height="3" fill="#ddd" rx="1" ry="1" />
+      <rect x="0" y="185" width="260" height="3" fill="#ddd" rx="1" ry="1" />
+      <rect x="0" y="195" width="180" height="3" fill="#ddd" rx="1" ry="1" />
+    </g>
+  </g>
+  
+  <!-- 인테리어 아이콘 -->
+  <g transform="translate(325, 25)">
+    <circle cx="30" cy="30" r="25" fill="#4ca5d0" opacity="0.2" />
+    <!-- 룰러 아이콘 -->
+    <g transform="rotate(45, 30, 30)">
+      <rect x="25" y="10" width="10" height="40" rx="2" ry="2" fill="#2c4a6d" />
+      <rect x="27" y="15" width="6" height="2" fill="white" />
+      <rect x="27" y="22" width="6" height="2" fill="white" />
+      <rect x="27" y="29" width="6" height="2" fill="white" />
+      <rect x="27" y="36" width="6" height="2" fill="white" />
+      <rect x="27" y="43" width="6" height="2" fill="white" />
+    </g>
+    <!-- 페인트 롤러 -->
+    <g transform="translate(25, 20) rotate(-30)">
+      <rect x="0" y="0" width="4" height="15" fill="#666" />
+      <rect x="-5" y="-8" width="14" height="8" rx="4" ry="4" fill="#ff6b3d" />
+    </g>
+  </g>
+</svg>
