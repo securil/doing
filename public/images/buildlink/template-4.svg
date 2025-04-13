@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <!-- 배경 -->
+  <rect width="400" height="300" fill="#f5faff" />
+  
+  <!-- 격자 패턴 배경 -->
+  <g opacity="0.1">
+    <pattern id="gridPattern" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M0,0 L0,20 M0,0 L20,0" stroke="#2c4a6d" stroke-width="0.5" />
+    </pattern>
+    <rect width="400" height="300" fill="url(#gridPattern)" />
+  </g>
+  
+  <!-- 계약서 -->
+  <g transform="translate(50, 30)">
+    <rect x="0" y="0" width="300" height="240" rx="5" ry="5" fill="white" stroke="#cccccc" stroke-width="2" />
+    
+    <!-- 계약서 헤더 -->
+    <rect x="0" y="0" width="300" height="40" fill="#2c4a6d" rx="5" ry="5" />
+    <rect x="0" y="35" width="300" height="5" fill="#2c4a6d" />
+    <text x="150" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">위수탁 계약서</text>
+    
+    <!-- 계약서 내용 -->
+    <g transform="translate(20, 50)">
+      <!-- 당사자 정보 -->
+      <text x="0" y="15" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2c4a6d">1. 계약 당사자</text>
+      <line x1="0" y1="20" x2="260" y2="20" stroke="#eee" stroke-width="1" />
+      
+      <!-- 정보 테이블 -->
+      <rect x="0" y="25" width="260" height="70" fill="none" stroke="#ddd" stroke-width="1" />
+      <line x1="0" y1="50" x2="260" y2="50" stroke="#ddd" stroke-width="1" />
+      <line x1="0" y1="75" x2="260" y2="75" stroke="#ddd" stroke-width="1" />
+      <line x1="65" y1="25" x2="65" y2="95" stroke="#ddd" stroke-width="1" />
+      
+      <rect x="0" y="25" width="65" height="25" fill="#f5f5f5" />
+      <rect x="0" y="50" width="65" height="25" fill="#f5f5f5" />
+      <rect x="0" y="75" width="65" height="20" fill="#f5f5f5" />
+      
+      <text x="32.5" y="40" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="#666">위탁자</text>
+      <text x="32.5" y="65" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="#666">수탁자</text>
+      <text x="32.5" y="88" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="#666">계약기간</text>
+      
+      <!-- 위탁업무 내용 -->
+      <text x="0" y="115" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2c4a6d">2. 위탁 업무 내용</text>
+      <line x1="0" y1="120" x2="260" y2="120" stroke="#eee" stroke-width="1" />
+      
+      <!-- 위탁 내용 표 -->
+      <rect x="0" y="130" width="260" height="60" fill="none" stroke="#ddd" stroke-width="1" />
+      <rect x="0" y="130" width="260" height="20" fill="#f5f5f5" stroke="#ddd" stroke-width="1" />
+      <line x1="0" y1="150" x2="260" y2="150" stroke="#ddd" stroke-width="1" />
+      <line x1="0" y1="170" x2="260" y2="170" stroke="#ddd" stroke-width="1" />
+      <line x1="40" y1="130" x2="40" y2="190" stroke="#ddd" stroke-width="1" />
+      <line x1="180" y1="130" x2="180" y2="190" stroke="#ddd" stroke-width="1" />
+      
+      <text x="20" y="144" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="#666">번호</text>
+      <text x="110" y="144" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="#666">위탁업무내용</text>
+      <text x="220" y="144" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="#666">비고</text>
+      
+      <text x="20" y="164" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="#666">1</text>
+      <text x="20" y="184" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="#666">2</text>
+      
+      <!-- 확인 서명란 -->
+      <text x="0" y="210" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#2c4a6d">3. 확인</text>
+      <line x1="0" y1="215" x2="260" y2="215" stroke="#eee" stroke-width="1" />
+      
+      <!-- 서명 라인 -->
+      <text x="0" y="230" font-family="Arial, sans-serif" font-size="8" fill="#666">위탁자: ___________________ (인)</text>
+      <text x="170" y="230" font-family="Arial, sans-serif" font-size="8" fill="#666">수탁자: ___________________ (인)</text>
+    </g>
+  </g>
+  
+  <!-- 계약 아이콘 -->
+  <g transform="translate(330, 30)">
+    <circle cx="25" cy="25" r="20" fill="#2c4a6d" opacity="0.2" />
+    <!-- 계약 문서 아이콘 -->
+    <g transform="translate(15, 15) scale(0.7)">
+      <rect x="0" y="0" width="30" height="35" fill="#2c4a6d" />
+      <rect x="5" y="5" width="20" height="3" fill="white" />
+      <rect x="5" y="12" width="20" height="3" fill="white" />
+      <rect x="5" y="19" width="20" height="3" fill="white" />
+      <rect x="5" y="26" width="10" height="3" fill="white" />
+      <!-- 도장 표시 -->
+      <circle cx="25" cy="28" r="5" fill="#ff6b3d" opacity="0.8" />
+      <path d="M22,28 L25,31 L29,25" stroke="white" stroke-width="1" fill="none" />
+    </g>
+  </g>
+</svg>

@@ -265,6 +265,25 @@ const { title } = Astro.props;
         
         // 커서 효과 초기화
         initializeCursorEffect();
+        
+        // 애니메이션 초기화
+        try {
+          // 애니메이션 초기화
+          const initAnimations = async () => {
+            try {
+              const animModule = await import('/src/scripts/animations.js');
+              if (typeof animModule.initAllAnimations === 'function') {
+                animModule.initAllAnimations();
+              }
+            } catch (err) {
+              console.log('애니메이션 모듈 로드 실패:', err);
+            }
+          };
+          
+          initAnimations();
+        } catch (error) {
+          console.log('애니메이션 초기화 오류:', error);
+        }
       });
     </script>
   </body>
@@ -272,4 +291,5 @@ const { title } = Astro.props;
 
 <style is:global>
   @import "../styles/global.css";
+  @import "../styles/animations.css";
 </style>

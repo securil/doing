@@ -2,54 +2,118 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import { getProjectById } from '../../firebase/projectService';
+import { getImagePath } from '../../utils/paths.js';
 
-// 동적 경로로부터 프로젝트 ID 가져오기
-const { id } = Astro.params;
-
-// 프로젝트 기본 정보 (파이어베이스 연결 실패 시 사용할 대체 데이터)
-let project = {
-  id: id,
-  title: '프로젝트 상세 정보',
-  description: '이 프로젝트는 현재 로드 중이거나 찾을 수 없습니다.',
-  fullDescription: '죄송합니다. 현재 프로젝트 정보를 불러올 수 없습니다. 잠시 후 다시 시도해주세요.',
-  imageUrl: '/doing/images/construction-material-1.avif',
-  client: '클라이언트 정보',
-  location: '위치 정보',
-  year: '2025',
-  category: '건설 프로젝트',
-  services: ['자재 공급', '인력 관리'],
-};
-
-// 실제 프로젝트 데이터 가져오기 시도
-try {
-  if (id) {
-    const projectData = await getProjectById(id);
-    if (projectData) {
-      project = projectData;
+// getStaticPaths 함수 추가 - 정적 빌드 시 생성할 경로 정의
+export function getStaticPaths() {
+  // 프로젝트 데이터 샘플
+  const projects = [
+    {
+      id: 'project1',
+      title: '서울 신도림 주상복합',
+      description: '고급 건축자재 공급 및 전문 인력 파견 서비스 제공',
+      fullDescription: '서울 신도림 지역의 대규모 주상복합 건설 프로젝트에 현종디자인의 Do-ing 솔루션이 적용되었습니다. 고품질 건축자재를 안정적으로 공급하고, 검증된 전문 인력을 파견하여 공기 단축과 비용 절감에 기여했습니다. 특히 물류 관리 시스템을 통해 자재 납품 시기를 최적화하고, 인력 배치의 효율성을 높여 발주처로부터 큰 호평을 받았습니다.',
+      client: '대한건설(주)',
+      location: '서울특별시 구로구 신도림동',
+      year: '2023',
+      category: '주상복합',
+      services: ['고급 건축자재 공급', '전문 인력 파견', '물류 관리 시스템 구축']
+    },
+    {
+      id: 'project2',
+      title: '부산 해운대 오피스텔',
+      description: '친환경 건축자재 납품 및 시공 인력 관리',
+      fullDescription: '부산 해운대 지역에 신축된 프리미엄 오피스텔 프로젝트를 위해 현종디자인은 친환경 인증을 받은 건축자재를 전문적으로 납품하였습니다. 또한 전문 시공 인력을 관리하여 높은 품질의 시공이 이루어지도록 지원했습니다. 이를 통해 해당 건물은 친환경 건축물 인증을 획득할 수 있었고, 시공 품질 면에서도 우수한 평가를 받았습니다.',
+      client: '해운대종합건설',
+      location: '부산광역시 해운대구',
+      year: '2024',
+      category: '오피스텔',
+      services: ['친환경 건축자재 납품', '전문 시공 인력 관리', '친환경 인증 지원']
+    },
+    {
+      id: 'project3',
+      title: '인천 송도 비즈니스 센터',
+      description: '대규모 건설 프로젝트 자재 공급 및 물류 시스템 구축',
+      fullDescription: '인천 송도 국제도시에 위치한 대규모 비즈니스 센터 건설을 위해 현종디자인은 포괄적인 자재 공급 솔루션을 제공했습니다. 다양한 자재를 효율적으로 관리하기 위한 물류 시스템을 구축하고, 자재 품질 관리와 적시 공급을 위한 체계를 마련했습니다. 결과적으로 공사 일정이 단축되고 자재 관련 문제 발생이 최소화되었습니다.',
+      client: '송도국제개발(주)',
+      location: '인천광역시 연수구 송도동',
+      year: '2023',
+      category: '상업시설',
+      services: ['건설자재 토탈 솔루션', '물류 시스템 구축', '자재 품질 관리']
+    },
+    {
+      id: 'project4',
+      title: '대전 호텔 리노베이션',
+      description: '맞춤형 인테리어 자재 공급 및 전문 시공팀 연결',
+      fullDescription: '대전에 위치한 노후 호텔의 리노베이션 프로젝트를 위해 현종디자인은 맞춤형 인테리어 자재를 공급하고 전문 시공팀을 연결해 주었습니다. 고객의 요구사항에 맞는 디자인과 품질을 갖춘 자재를 선별하여 공급하고, 리노베이션 경험이 풍부한 시공팀을 매칭하여 성공적인 프로젝트 완료를 지원했습니다.',
+      client: '대전호텔(주)',
+      location: '대전광역시 유성구',
+      year: '2024',
+      category: '리노베이션',
+      services: ['맞춤형 인테리어 자재 공급', '전문 시공팀 연결', '디자인 컨설팅']
+    },
+    {
+      id: 'project5',
+      title: '광주 아파트 단지',
+      description: '대량 건축자재 납품 및 장기 인력 관리 서비스',
+      fullDescription: '광주에 위치한 대규모 아파트 단지 건설을 위해 현종디자인은 대량의 건축자재를 안정적으로 납품하고, 장기적인 인력 관리 서비스를 제공했습니다. 여러 공종에 걸친 자재의 일괄 공급과 각 공정별 전문 인력의 효율적 배치를 통해 공사 기간 단축과 품질 향상에 기여했습니다.',
+      client: '광주주택건설(주)',
+      location: '광주광역시 서구',
+      year: '2022',
+      category: '주거시설',
+      services: ['대량 건축자재 납품', '장기 인력 관리', '자재 창고 운영']
+    },
+    {
+      id: 'project6',
+      title: '제주 리조트 건설',
+      description: '특수 건축자재 공급 및 지역 맞춤형 인력 솔루션',
+      fullDescription: '제주도의 특수한 환경에 맞는 리조트 건설을 위해 현종디자인은 내염성이 강한 특수 건축자재를 공급하고, 제주 지역 특성에 맞는 인력 솔루션을 제공했습니다. 또한 제주 지역의 기후와 환경에 적합한 자재 선정과 관리 방안을 제시하여 건물의 내구성과 유지보수 효율성을 높였습니다.',
+      client: '제주관광개발(주)',
+      location: '제주특별자치도 서귀포시',
+      year: '2023',
+      category: '리조트',
+      services: ['특수 건축자재 공급', '지역 맞춤형 인력 솔루션', '환경 적응형 자재 컨설팅']
     }
-  }
-} catch (error) {
-  console.error('프로젝트 정보 로드 실패:', error);
-  // 에러 발생 시 기본 정보 사용
+  ];
+  
+  // 각 프로젝트에 대한 경로 생성
+  return projects.map(project => {
+    return {
+      params: { id: project.id },
+      props: { project }
+    };
+  });
 }
 
-// 프로젝트 스켈레톤 데이터 (하단 관련 프로젝트용)
+// 페이지 컴포넌트에서 사용할 props 가져오기
+const { project } = Astro.props;
+const { id } = Astro.params;
+
+// 이미지 경로 조정
+const imageUrl = getImagePath('construction-material-1.avif');
+const galleryImages = [
+  getImagePath('construction-site-1.avif'),
+  getImagePath('construction-site-2.avif'),
+  getImagePath('building-exterior-1.avif'),
+  getImagePath('modern-building-1.avif')
+];
+
+// 관련 프로젝트 데이터
 const relatedProjects = [
   {
     id: 'project1',
     title: '서울 신도림 주상복합',
-    imageUrl: '/doing/images/construction-material-1.avif'
+    imageUrl: getImagePath('construction-material-1.avif')
   },
   {
     id: 'project2',
     title: '부산 해운대 오피스텔',
-    imageUrl: '/doing/images/modern-building-1.avif'
+    imageUrl: getImagePath('modern-building-1.avif')
   },
   {
     id: 'project3',
     title: '인천 송도 비즈니스 센터',
-    imageUrl: '/doing/images/interior-design-2.avif'
+    imageUrl: getImagePath('interior-design-2.avif')
   }
 ];
 ---
@@ -79,7 +143,7 @@ const relatedProjects = [
         <!-- 프로젝트 이미지 -->
         <div class="lg:col-span-2">
           <img 
-            src={project.imageUrl} 
+            src={project.id === id ? imageUrl : project.imageUrl} 
             alt={project.title} 
             class="w-full h-auto rounded-lg shadow-xl mb-8"
           />
@@ -94,22 +158,22 @@ const relatedProjects = [
             <h2 class="text-3xl text-primary mb-6">프로젝트 갤러리</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
               <img 
-                src="/doing/images/construction-site-1.avif" 
+                src={galleryImages[0]} 
                 alt="프로젝트 이미지 1" 
                 class="w-full h-64 object-cover rounded-lg shadow-md"
               />
               <img 
-                src="/doing/images/construction-site-2.avif" 
+                src={galleryImages[1]} 
                 alt="프로젝트 이미지 2" 
                 class="w-full h-64 object-cover rounded-lg shadow-md"
               />
               <img 
-                src="/doing/images/building-exterior-1.avif" 
+                src={galleryImages[2]} 
                 alt="프로젝트 이미지 3" 
                 class="w-full h-64 object-cover rounded-lg shadow-md"
               />
               <img 
-                src="/doing/images/modern-building-1.avif" 
+                src={galleryImages[3]} 
                 alt="프로젝트 이미지 4" 
                 class="w-full h-64 object-cover rounded-lg shadow-md"
               />

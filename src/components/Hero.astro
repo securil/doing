@@ -1,11 +1,10 @@
 ---
-import '../styles/hero.css';
 import { getImagePath } from '../utils/paths.js';
 
-// 이미지 경로 - 직접 명시적으로 설정 
-const slide1Image = '/images/construction-worker-1.avif';
-const slide2Image = '/images/building-exterior-1.avif';
-const slide3Image = '/images/construction-worker-2.avif';
+// 이미지 경로 - getImagePath 함수 사용
+const slide1Image = getImagePath('/images/construction-worker-1.avif');
+const slide2Image = getImagePath('/images/building-exterior-1.avif');
+const slide3Image = getImagePath('/images/construction-worker-2.avif');
 
 // 디버깅용 출력
 console.log('슬라이드 이미지 경로:', slide1Image, slide2Image, slide3Image);

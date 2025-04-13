@@ -1,0 +1,249 @@
+/* 기본 애니메이션 클래스 */
+.animate {
+  transition: all 0.3s ease;
+}
+
+/* 페이드 애니메이션 */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.8s ease-in forwards;
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+.fade-down {
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeDown 0.8s ease-out forwards;
+}
+
+/* 슬라이드 애니메이션 */
+.slide-in-left {
+  transform: translateX(-50px);
+  opacity: 0;
+  animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.slide-in-right {
+  transform: translateX(50px);
+  opacity: 0;
+  animation: slideInRight 0.8s ease-out forwards;
+}
+
+/* 크기 애니메이션 */
+.scale-in {
+  transform: scale(0.8);
+  opacity: 0;
+  animation: scaleIn 0.6s ease-out forwards;
+}
+
+.bounce-in {
+  transform: scale(0.3);
+  opacity: 0;
+  animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* 회전 애니메이션 */
+.rotate-in {
+  transform: rotate(-15deg) scale(0.8);
+  opacity: 0;
+  animation: rotateIn 0.6s ease-out forwards;
+}
+
+/* 애니메이션 지연 클래스 */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-800 { animation-delay: 800ms; }
+.delay-900 { animation-delay: 900ms; }
+.delay-1000 { animation-delay: 1000ms; }
+
+/* 애니메이션 키프레임 정의 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+@keyframes rotateIn {
+  from {
+    transform: rotate(-15deg) scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* 호버 효과 클래스 */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-bright {
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.hover-bright:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+}
+
+.hover-rotate {
+  transition: transform 0.3s ease;
+}
+
+.hover-rotate:hover {
+  transform: rotate(2deg);
+}
+
+/* 호버 시 테두리 효과 */
+.hover-border {
+  position: relative;
+}
+
+.hover-border::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.hover-border:hover::after {
+  width: 100%;
+}
+
+/* 호버 시 배경색 변경 효과 */
+.hover-bg {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.hover-bg:hover {
+  background-color: rgba(59, 130, 246, 0.1); /* 파란색 배경 (낮은 투명도) */
+}
+
+/* 호버 시 그림자 효과 */
+.hover-shadow {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 호버 시 버튼 효과 */
+.hover-btn {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hover-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.hover-btn:hover::before {
+  left: 0;
+}
