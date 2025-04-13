@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
 import { getImagePath } from '../../utils/paths.js';
 
 // 카테고리 데이터
@@ -144,6 +146,7 @@ const faqs = [
 ---
 
 <Layout title="Do-ing | 서비스 마켓플레이스">
+  <Header />
   
   <!-- 히어로 섹션 -->
   <section class="hero pt-[120px] pb-[80px] px-[5%] relative">
@@ -579,6 +582,7 @@ const faqs = [
     </div>
   </section>
   
+  <Footer />
 </Layout>
 
 <script>

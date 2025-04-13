@@ -1,8 +1,16 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
 import { getImagePath } from '../../utils/paths.js';
 
-// 카테고리 데이터
+function getPageUrl(path) {
+  const basePath = import.meta.env.BASE_URL || '/';
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  return `${basePath.endsWith('/') ? basePath.slice(0, -1) : basePath}${cleanPath}`;
+}
+
+// 서비스 카테고리 데이터
 const categories = [
   {
     id: 'design',
@@ -42,43 +50,115 @@ const categories = [
   }
 ];
 
-// 인기 서비스 데이터
-const popularServices = [
-  {
-    id: 1,
-    title: '공간 맞춤형 인테리어 디자인',
-    provider: '스페이스디자인',
-    image: 'services/service-1.svg',
-    rating: 4.8,
-    reviews: 124,
-    description: '주거 및 상업 공간에 맞춤형 인테리어 디자인 서비스',
-    price: '300,000원~'
-  },
-  {
-    id: 2,
-    title: '상업 공간 리모델링',
-    provider: '모던건축',
-    image: 'services/service-2.svg',
-    rating: 4.7,
-    reviews: 98,
-    description: '카페, 레스토랑, 사무실 등 상업 공간 리모델링',
-    price: '견적 문의'
-  },
-  {
-    id: 3,
-    title: '주택 설계 및 건축 감리',
-    provider: '아키텍트',
-    image: 'services/service-3.svg',
-    rating: 4.9,
-    reviews: 76,
-    description: '단독주택, 다가구주택 설계 및 건축 감리 서비스',
-    price: '견적 문의'
-  },
-  {
-    id: 4,
-    title: '가구 및 조명 스타일링',
-    provider: '라이트룸',
-    image: 'services/service-4.svg',
-    rating: 4.6,
-    reviews: 85,
-    description: '공간에 어울리는 가구 및 조명 선
+// 마켓플레이스 URL
+const marketplaceUrl = getPageUrl('/services/marketplace');
+---
+
+<Layout title="Do-ing | 서비스">
+  <Header />
+  
+  <main class="pt-[120px] pb-[80px]">
+    <div class="container mx-auto px-4 max-w-[1200px]">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold mb-4 fade-in">Do-ing 서비스</h1>
+        <p class="text-xl text-gray-600 max-w-[800px] mx-auto fade-in delay-200">건축 및 인테리어 전문가와 함께하는 맞춤형 서비스를 만나보세요</p>
+      </div>
+      
+      <div class="bg-white rounded-lg shadow-lg p-8 mb-12 fade-in delay-300">
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="md:w-1/2 mb-6 md:mb-0 md:pr-8">
+            <h2 class="text-2xl font-bold mb-4">서비스 마켓플레이스</h2>
+            <p class="text-gray-600 mb-6">설계부터 시공까지, 다양한 건축 및 인테리어 전문가들의 서비스를 한 곳에서 만나보세요. 검증된 전문가들이 제공하는 맞춤형 서비스로 당신의 공간을 더욱 특별하게 만들어 드립니다.</p>
+            <a href={marketplaceUrl} class="btn py-3 px-6">마켓플레이스 둘러보기</a>
+          </div>
+          <div class="md:w-1/2">
+            <img src={getImagePath('services/marketplace-preview.svg')} alt="서비스 마켓플레이스" class="rounded-lg shadow-md w-full">
+          </div>
+        </div>
+      </div>
+      
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 text-center fade-in">서비스 카테고리</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {categories.map((category, index) => (
+            <div class={`bg-white rounded-lg shadow-md overflow-hidden hover-lift p-6 fade-in delay-${(index+2)*100}`}>
+              <div class="text-4xl text-accent mb-4">
+                <i class={`fas ${category.icon}`}></i>
+              </div>
+              <h3 class="text-xl font-semibold mb-2">{category.title}</h3>
+              <p class="text-gray-600 mb-4">{category.description}</p>
+              <a href={`${marketplaceUrl}#category-${category.id}`} class="text-accent hover:text-accent-2 font-medium hover-border inline-block">
+                자세히 보기 <i class="fas fa-arrow-right ml-1"></i>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <div class="bg-gray-50 rounded-lg p-8 text-center fade-in delay-300">
+        <h2 class="text-2xl font-bold mb-4">맞춤 서비스가 필요하신가요?</h2>
+        <p class="text-gray-600 mb-6 max-w-[800px] mx-auto">원하는 서비스를 찾지 못하셨나요? 당신의 요구사항에 맞는 맞춤형 서비스를 제안해 드립니다.</p>
+        <a href="#contact" class="btn py-3 px-6">문의하기</a>
+      </div>
+    </div>
+  </main>
+  
+  <Footer />
+</Layout>
+
+<style>
+  .btn {
+    display: inline-block;
+    background: linear-gradient(to right, var(--accent-color), var(--accent-color-2));
+    color: white;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .section-title h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  
+  .section-title p {
+    color: #6b7280;
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+  
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hover-border {
+    position: relative;
+  }
+  
+  .hover-border::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--accent-color), var(--accent-color-2));
+    transition: width 0.3s ease;
+  }
+  
+  .hover-border:hover::after {
+    width: 100%;
+  }
+</style>
