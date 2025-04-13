@@ -8,18 +8,28 @@ function getPageUrl(path) {
   return `${basePath.endsWith('/') ? basePath.slice(0, -1) : basePath}${cleanPath}`;
 }
 
+// 중요 URL 설정
 const buildlinkUrl = getPageUrl('/buildlink');
 const homeUrl = getPageUrl('/');
+const servicesUrl = getPageUrl('/services/marketplace');
 
 // 현재 페이지 확인
 const currentPath = Astro.url.pathname;
-const isHomePage = currentPath === '/' || currentPath === homeUrl || currentPath.endsWith('/index.html');
+// BasePath를 제거한 실제 경로 확인
+const pathWithoutBase = currentPath.replace(import.meta.env.BASE_URL || '/', '/');
+const isHomePage = pathWithoutBase === '/' || pathWithoutBase === '/index.html' || pathWithoutBase === 'index.html';
+
+// 디버그 - 개발 시 확인용 (배포 전 제거)
+console.log('currentPath:', currentPath);
+console.log('pathWithoutBase:', pathWithoutBase);
+console.log('isHomePage:', isHomePage);
+console.log('homeUrl:', homeUrl);
 ---
 
 <header class="fixed w-full bg-white shadow-md z-50 transition-all duration-300">
   <div class="header-container flex justify-between items-center py-5 px-[8%] max-w-[1400px] mx-auto">
     <div class="logo text-[28px] font-bold text-primary relative">
-      <a href={getPageUrl('/')} class="flex items-center">
+      <a href={homeUrl} class="flex items-center">
         <span class="inline-block w-[8px] h-[28px] bg-gradient-to-r from-accent to-accent-2 mr-[10px] rounded-[2px]"></span>
         Do-<span class="gradient-text">Ing</span>
       </a>
@@ -27,29 +37,55 @@ const isHomePage = currentPath === '/' || currentPath === homeUrl || currentPath
     <nav>
       <ul class="flex">
         <li class="ml-[30px] font-medium relative">
-          <a href={isHomePage ? "#home" : `${homeUrl}#home`} class="after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-accent after:to-accent-2 after:transition-all hover:after:w-full">Home</a>
+          <a href={isHomePage ? "#home" : `${homeUrl}#home`} class="nav-link">Home</a>
         </li>
         <li class="ml-[30px] font-medium relative">
-          <a href={isHomePage ? "#services" : `${homeUrl}#services`} class="after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-accent after:to-accent-2 after:transition-all hover:after:w-full">Services</a>
+          <a href={isHomePage ? "#services" : `${homeUrl}#services`} class="nav-link">Services</a>
         </li>
         <li class="ml-[30px] font-medium relative">
-          <a href={isHomePage ? "#about" : `${homeUrl}#about`} class="after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-accent after:to-accent-2 after:transition-all hover:after:w-full">About</a>
+          <a href={servicesUrl} class="nav-link">Marketplace</a>
         </li>
         <li class="ml-[30px] font-medium relative">
-          <a href={isHomePage ? "#projects" : `${homeUrl}#projects`} class="after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-accent after:to-accent-2 after:transition-all hover:after:w-full">Projects</a>
+          <a href={isHomePage ? "#about" : `${homeUrl}#about`} class="nav-link">About</a>
         </li>
         <li class="ml-[30px] font-medium relative">
-          <a href={buildlinkUrl} class="after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-accent after:to-accent-2 after:transition-all hover:after:w-full">BuildLink</a>
+          <a href={isHomePage ? "#projects" : `${homeUrl}#projects`} class="nav-link">Projects</a>
         </li>
         <li class="ml-[30px] font-medium relative">
-          <a href={isHomePage ? "#contact" : `${homeUrl}#contact`} class="after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-accent after:to-accent-2 after:transition-all hover:after:w-full">Contact</a>
+          <a href={buildlinkUrl} class="nav-link">BuildLink</a>
+        </li>
+        <li class="ml-[30px] font-medium relative">
+          <a href={isHomePage ? "#contact" : `${homeUrl}#contact`} class="nav-link">Contact</a>
         </li>
       </ul>
     </nav>
+    <div class="mobile-menu-toggle hidden">
+      <img src={getImagePath('menu-icon.svg')} alt="메뉴" width="30" height="30">
+    </div>
   </div>
 </header>
 
 <style>
+  /* 네비게이션 링크 스타일 */
+  .nav-link {
+    position: relative;
+  }
+  
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--accent-color), var(--accent-color-2));
+    transition: width 0.3s ease;
+  }
+  
+  .nav-link:hover::after {
+    width: 100%;
+  }
+  
   /* 모바일 반응형 */
   @media (max-width: 768px) {
     .header-container {
@@ -63,5 +99,45 @@ const isHomePage = currentPath === '/' || currentPath === homeUrl || currentPath
     nav li {
       margin: 0 10px;
     }
+    
+    .mobile-menu-toggle {
+      display: block;
+      position: absolute;
+      right: 8%;
+      top: 20px;
+    }
   }
 </style>
+
+<script>
+  // 현재 경로에 따라 활성 링크 스타일 적용
+  document.addEventListener('DOMContentLoaded', () => {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      
+      // 현재 페이지와 링크 경로가 일치하는지 확인
+      if (currentPath === href || 
+          (currentPath.includes('/services') && href.includes('/services')) ||
+          (currentPath.includes('/buildlink') && href.includes('/buildlink'))) {
+        link.classList.add('active-link');
+        link.style.fontWeight = 'bold';
+        link.style.color = 'var(--primary-color)';
+      }
+    });
+    
+    // 해시 링크 처리
+    if (window.location.hash) {
+      const hash = window.location.hash;
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === hash) {
+          link.classList.add('active-link');
+          link.style.fontWeight = 'bold';
+          link.style.color = 'var(--primary-color)';
+        }
+      });
+    }
+  });
+</script>

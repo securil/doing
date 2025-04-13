@@ -1,0 +1,84 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getImagePath } from '../../utils/paths.js';
+
+// 카테고리 데이터
+const categories = [
+  {
+    id: 'design',
+    title: '설계/디자인',
+    icon: 'fa-ruler-combined',
+    description: '건축 및 인테리어 설계 디자인 서비스'
+  },
+  {
+    id: 'construction',
+    title: '시공/리모델링',
+    icon: 'fa-hammer',
+    description: '주거 및 상업 공간 시공 서비스'
+  },
+  {
+    id: 'interior',
+    title: '인테리어/홈스타일링',
+    icon: 'fa-couch',
+    description: '공간별 인테리어 디자인 및 스타일링'
+  },
+  {
+    id: 'architecture',
+    title: '건축 설계',
+    icon: 'fa-drafting-compass',
+    description: '건축물 설계 및 구조 계획'
+  },
+  {
+    id: 'landscape',
+    title: '조경/외부공간',
+    icon: 'fa-tree',
+    description: '정원 및 외부 공간 디자인'
+  },
+  {
+    id: 'consulting',
+    title: '건축 컨설팅',
+    icon: 'fa-clipboard-list',
+    description: '건축 및 인테리어 관련 전문 컨설팅'
+  }
+];
+
+// 인기 서비스 데이터
+const popularServices = [
+  {
+    id: 1,
+    title: '공간 맞춤형 인테리어 디자인',
+    provider: '스페이스디자인',
+    image: 'services/service-1.svg',
+    rating: 4.8,
+    reviews: 124,
+    description: '주거 및 상업 공간에 맞춤형 인테리어 디자인 서비스',
+    price: '300,000원~'
+  },
+  {
+    id: 2,
+    title: '상업 공간 리모델링',
+    provider: '모던건축',
+    image: 'services/service-2.svg',
+    rating: 4.7,
+    reviews: 98,
+    description: '카페, 레스토랑, 사무실 등 상업 공간 리모델링',
+    price: '견적 문의'
+  },
+  {
+    id: 3,
+    title: '주택 설계 및 건축 감리',
+    provider: '아키텍트',
+    image: 'services/service-3.svg',
+    rating: 4.9,
+    reviews: 76,
+    description: '단독주택, 다가구주택 설계 및 건축 감리 서비스',
+    price: '견적 문의'
+  },
+  {
+    id: 4,
+    title: '가구 및 조명 스타일링',
+    provider: '라이트룸',
+    image: 'services/service-4.svg',
+    rating: 4.6,
+    reviews: 85,
+    description: '공간에 어울리는 가구 및 조명 선

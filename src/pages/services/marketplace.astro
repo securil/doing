@@ -1,0 +1,824 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getImagePath } from '../../utils/paths.js';
+
+// 카테고리 데이터
+const categories = [
+  {
+    id: 'design',
+    title: '설계/디자인',
+    icon: 'fa-ruler-combined',
+    description: '건축 및 인테리어 설계 디자인 서비스'
+  },
+  {
+    id: 'construction',
+    title: '시공/리모델링',
+    icon: 'fa-hammer',
+    description: '주거 및 상업 공간 시공 서비스'
+  },
+  {
+    id: 'interior',
+    title: '인테리어/홈스타일링',
+    icon: 'fa-couch',
+    description: '공간별 인테리어 디자인 및 스타일링'
+  },
+  {
+    id: 'architecture',
+    title: '건축 설계',
+    icon: 'fa-drafting-compass',
+    description: '건축물 설계 및 구조 계획'
+  },
+  {
+    id: 'landscape',
+    title: '조경/외부공간',
+    icon: 'fa-tree',
+    description: '정원 및 외부 공간 디자인'
+  },
+  {
+    id: 'consulting',
+    title: '건축 컨설팅',
+    icon: 'fa-clipboard-list',
+    description: '건축 및 인테리어 관련 전문 컨설팅'
+  }
+];
+
+// 인기 서비스 데이터
+const popularServices = [
+  {
+    id: 1,
+    title: '공간 맞춤형 인테리어 디자인',
+    provider: '스페이스디자인',
+    image: 'services/service-1.svg',
+    rating: 4.8,
+    reviews: 124,
+    description: '주거 및 상업 공간에 맞춤형 인테리어 디자인 서비스',
+    price: '300,000원~'
+  },
+  {
+    id: 2,
+    title: '상업 공간 리모델링',
+    provider: '모던건축',
+    image: 'services/service-2.svg',
+    rating: 4.7,
+    reviews: 98,
+    description: '카페, 레스토랑, 사무실 등 상업 공간 리모델링',
+    price: '견적 문의'
+  },
+  {
+    id: 3,
+    title: '주택 설계 및 건축 감리',
+    provider: '아키텍트',
+    image: 'services/service-3.svg',
+    rating: 4.9,
+    reviews: 76,
+    description: '단독주택, 다가구주택 설계 및 건축 감리 서비스',
+    price: '견적 문의'
+  },
+  {
+    id: 4,
+    title: '가구 및 조명 스타일링',
+    provider: '라이트룸',
+    image: 'services/service-4.svg',
+    rating: 4.6,
+    reviews: 85,
+    description: '공간에 어울리는 가구 및 조명 선택, 배치 서비스',
+    price: '150,000원~'
+  }
+];
+
+// 전문가 데이터
+const experts = [
+  {
+    id: 101,
+    name: '김태호',
+    field: '건축 설계',
+    profile: 'experts/expert-1.svg',
+    rating: 4.9,
+    projects: 32
+  },
+  {
+    id: 102,
+    name: '이지영',
+    field: '인테리어 디자인',
+    profile: 'experts/expert-2.svg',
+    rating: 4.8,
+    projects: 47
+  },
+  {
+    id: 103,
+    name: '박준서',
+    field: '시공/리모델링',
+    profile: 'experts/expert-3.svg',
+    rating: 4.7,
+    projects: 28
+  },
+  {
+    id: 104,
+    name: '최수진',
+    field: '조경 디자인',
+    profile: 'experts/expert-4.svg',
+    rating: 4.6,
+    projects: 19
+  }
+];
+
+// FAQ 데이터
+const faqs = [
+  {
+    question: '서비스 의뢰는 어떻게 진행되나요?',
+    answer: '원하는 서비스와 전문가를 선택한 후, 상담 요청을 통해 프로젝트 요구사항을 공유하고 견적을 받을 수 있습니다. 견적에 만족하시면 계약 및 결제가 진행됩니다.'
+  },
+  {
+    question: '결제는 어떻게 이루어지나요?',
+    answer: '전문가와 협의 후 견적이 확정되면 플랫폼을 통해 안전하게 결제가 진행됩니다. 프로젝트 진행 단계에 따라 분할 결제도 가능합니다.'
+  },
+  {
+    question: '프로젝트 진행 중 수정이 필요할 경우 어떻게 하나요?',
+    answer: '프로젝트 진행 중 수정이 필요할 경우, 전문가와 상담을 통해 조율할 수 있습니다. 중대한 변경 사항은 추가 비용이 발생할 수 있습니다.'
+  },
+  {
+    question: '서비스 완료 후 문제가 발생하면 어떻게 되나요?',
+    answer: '서비스 완료 후 일정 기간 동안 AS 보증이 제공됩니다. 문제가 발생할 경우 고객센터로 문의하시면 신속하게 해결해 드립니다.'
+  }
+];
+---
+
+<Layout title="Do-ing | 서비스 마켓플레이스">
+  
+  <!-- 히어로 섹션 -->
+  <section class="hero pt-[120px] pb-[80px] px-[5%] relative">
+    <div class="max-w-[1200px] mx-auto text-white relative z-10">
+      <div class="text-center mb-[50px]">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 fade-in">건축 및 인테리어 전문가와 함께하세요</h1>
+        <p class="text-xl max-w-[800px] mx-auto mb-8 fade-in delay-200">설계부터 시공까지, 당신의 공간을 위한 최고의 전문가 서비스</p>
+        
+        <!-- 통계 수치 -->
+        <div class="stats flex flex-wrap justify-center gap-8 mb-10">
+          <div class="stat-item text-center fade-in delay-300">
+            <div class="stat-value text-4xl font-bold mb-1">1,245</div>
+            <div class="stat-label text-sm opacity-80">등록된 전문가</div>
+          </div>
+          <div class="stat-item text-center fade-in delay-400">
+            <div class="stat-value text-4xl font-bold mb-1">3,721</div>
+            <div class="stat-label text-sm opacity-80">완료된 프로젝트</div>
+          </div>
+          <div class="stat-item text-center fade-in delay-500">
+            <div class="stat-value text-4xl font-bold mb-1">4.8</div>
+            <div class="stat-label text-sm opacity-80">평균 만족도</div>
+          </div>
+        </div>
+        
+        <!-- 검색 바 -->
+        <div class="search-bar max-w-[700px] mx-auto bg-white rounded-full overflow-hidden shadow-lg flex items-center p-2 fade-in delay-600">
+          <div class="flex-1 flex items-center">
+            <i class="fas fa-search text-gray-400 ml-4"></i>
+            <input type="text" placeholder="원하는 서비스를 검색하세요" class="w-full py-3 px-4 outline-none text-gray-700">
+          </div>
+          <select class="bg-gray-100 text-gray-700 py-3 px-4 rounded-full mr-2 outline-none">
+            <option>모든 카테고리</option>
+            <option>설계/디자인</option>
+            <option>시공/리모델링</option>
+            <option>인테리어/홈스타일링</option>
+            <option>건축 설계</option>
+            <option>조경/외부공간</option>
+            <option>건축 컨설팅</option>
+          </select>
+          <button class="bg-accent hover:bg-accent-2 text-white py-3 px-6 rounded-full transition-all">
+            검색
+          </button>
+        </div>
+        
+        <!-- 인기 검색어 -->
+        <div class="popular-keywords mt-4 text-sm fade-in delay-700">
+          <span class="mr-2 opacity-80">인기 검색어:</span>
+          <a href="#keyword-interior" class="mx-1 hover:text-accent-2 underline">인테리어</a>
+          <a href="#keyword-remodeling" class="mx-1 hover:text-accent-2 underline">리모델링</a>
+          <a href="#keyword-apartment" class="mx-1 hover:text-accent-2 underline">아파트</a>
+          <a href="#keyword-cafe" class="mx-1 hover:text-accent-2 underline">카페</a>
+          <a href="#keyword-office" class="mx-1 hover:text-accent-2 underline">사무실</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 부유하는 장식 요소들 -->
+    <div class="absolute left-[5%] top-[30%] w-12 h-12 opacity-20 animate-pulse">
+      <i class="fas fa-drafting-compass text-5xl"></i>
+    </div>
+    <div class="absolute right-[10%] top-[25%] w-10 h-10 opacity-20 animate-pulse" style="animation-delay: 1s;">
+      <i class="fas fa-ruler-combined text-4xl"></i>
+    </div>
+    <div class="absolute left-[15%] bottom-[20%] w-8 h-8 opacity-20 animate-pulse" style="animation-delay: 1.5s;">
+      <i class="fas fa-home text-3xl"></i>
+    </div>
+    <div class="absolute right-[8%] bottom-[25%] w-10 h-10 opacity-20 animate-pulse" style="animation-delay: 0.8s;">
+      <i class="fas fa-paint-roller text-4xl"></i>
+    </div>
+  </section>
+  
+  <!-- 서비스 카테고리 섹션 -->
+  <section class="categories py-[80px] px-[5%] bg-gray-50">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="section-title">
+        <h2 class="fade-in">서비스 카테고리</h2>
+        <p class="fade-in delay-200">전문 분야별 다양한 서비스를 찾아보세요</p>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {categories.map((category, index) => (
+          <div class={`category-card bg-white rounded-lg shadow-md overflow-hidden hover-lift p-6 text-center fade-in delay-${(index+2)*100}`}>
+            <div class="category-icon mb-4 text-4xl text-accent">
+              <i class={`fas ${category.icon}`}></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">{category.title}</h3>
+            <p class="text-gray-600 mb-4">{category.description}</p>
+            <a href={`#category-${category.id}`} class="inline-block text-accent hover:text-accent-2 font-medium hover-border">
+              서비스 보기 <i class="fas fa-arrow-right ml-1"></i>
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  
+  <!-- 인기 서비스 섹션 -->
+  <section class="popular-services py-[80px] px-[5%]">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="section-title">
+        <h2 class="fade-in">인기 서비스</h2>
+        <p class="fade-in delay-200">Do-ing에서 가장 인기 있는 서비스를 만나보세요</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {popularServices.map((service, index) => (
+          <div class={`service-card bg-white rounded-lg shadow-md overflow-hidden hover-lift fade-in delay-${(index+2)*100}`}>
+            <div class="service-image h-[200px] relative overflow-hidden">
+              <img src={getImagePath(service.image)} alt={service.title} class="w-full h-full object-cover">
+              <div class="absolute top-3 right-3 bg-accent text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
+                인기
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="flex justify-between items-start mb-2">
+                <h3 class="text-lg font-semibold">{service.title}</h3>
+                <div class="flex items-center">
+                  <span class="text-yellow-500 mr-1"><i class="fas fa-star"></i></span>
+                  <span class="text-sm font-medium">{service.rating}</span>
+                </div>
+              </div>
+              <p class="text-sm text-gray-500 mb-1">by {service.provider} <i class="fas fa-check-circle text-accent ml-1"></i></p>
+              <p class="text-sm text-gray-600 mb-3">{service.description}</p>
+              <div class="flex items-center text-xs text-gray-500 mb-4">
+                <span class="mr-3"><i class="fas fa-heart mr-1"></i> {Math.floor(Math.random() * 50) + 10}</span>
+                <span><i class="fas fa-comment mr-1"></i> {service.reviews}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-accent font-semibold">{service.price}</span>
+                <a href={`#service-${service.id}`} class="btn py-2 px-4 text-sm">자세히 보기</a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div class="service-filters bg-white rounded-lg shadow-md p-6 my-10 fade-in delay-300">
+        <h3 class="text-lg font-semibold mb-4">서비스 필터</h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div class="filter-group">
+            <label class="block text-sm text-gray-600 mb-2">카테고리</label>
+            <select class="w-full rounded-lg border-gray-300 p-2 focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-20">
+              <option>모든 카테고리</option>
+              {categories.map(category => (
+                <option>{category.title}</option>
+              ))}
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label class="block text-sm text-gray-600 mb-2">지역</label>
+            <select class="w-full rounded-lg border-gray-300 p-2 focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-20">
+              <option>전국</option>
+              <option>서울</option>
+              <option>경기/인천</option>
+              <option>부산/경남</option>
+              <option>대구/경북</option>
+              <option>광주/전라</option>
+              <option>대전/충청</option>
+              <option>강원</option>
+              <option>제주</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label class="block text-sm text-gray-600 mb-2">가격대</label>
+            <select class="w-full rounded-lg border-gray-300 p-2 focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-20">
+              <option>모든 가격대</option>
+              <option>10만원 이하</option>
+              <option>10만원 ~ 50만원</option>
+              <option>50만원 ~ 100만원</option>
+              <option>100만원 ~ 500만원</option>
+              <option>500만원 이상</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label class="block text-sm text-gray-600 mb-2">정렬</label>
+            <select class="w-full rounded-lg border-gray-300 p-2 focus:border-accent focus:ring focus:ring-accent focus:ring-opacity-20">
+              <option>추천순</option>
+              <option>인기순</option>
+              <option>최신순</option>
+              <option>평점순</option>
+              <option>가격 낮은순</option>
+              <option>가격 높은순</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-6">
+        <a href="#all-services" class="btn px-8">모든 서비스 보기</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- 서비스 이용 가이드 -->
+  <section class="service-guide py-[80px] px-[5%] bg-gradient-to-r from-primary to-secondary text-white">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="section-title">
+        <h2 class="text-white fade-in">서비스 이용 가이드</h2>
+        <p class="text-white opacity-90 fade-in delay-200">Do-ing 서비스 마켓플레이스 이용 방법</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-16">
+        <div class="step-card text-center fade-in delay-300">
+          <div class="step-icon w-20 h-20 rounded-full bg-white text-accent flex items-center justify-center text-3xl mx-auto mb-6">
+            <i class="fas fa-search"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">01. 전문가 찾기</h3>
+          <p class="opacity-90">다양한 분야의 검증된 전문가들 중 원하는 서비스를 제공하는 전문가를 찾아보세요.</p>
+        </div>
+        
+        <div class="step-card text-center fade-in delay-500">
+          <div class="step-icon w-20 h-20 rounded-full bg-white text-accent flex items-center justify-center text-3xl mx-auto mb-6">
+            <i class="fas fa-comments"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">02. 상담 및 견적</h3>
+          <p class="opacity-90">전문가와 직접 상담하며 프로젝트 요구사항을 공유하고 맞춤형 견적을 받아보세요.</p>
+        </div>
+        
+        <div class="step-card text-center fade-in delay-700">
+          <div class="step-icon w-20 h-20 rounded-full bg-white text-accent flex items-center justify-center text-3xl mx-auto mb-6">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">03. 안전한 거래</h3>
+          <p class="opacity-90">Do-ing의 안전 결제 시스템으로 투명하고 안전하게 프로젝트를 진행하세요.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- 주요 특징/혜택 섹션 -->
+  <section class="features py-[80px] px-[5%]">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="section-title">
+        <h2 class="fade-in">Do-ing 서비스 특징</h2>
+        <p class="fade-in delay-200">Do-ing 마켓플레이스만의 차별화된 특징</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="feature-card flex p-6 bg-white rounded-lg shadow-md hover-lift fade-in delay-300">
+          <div class="feature-icon text-4xl text-accent mr-6">
+            <i class="fas fa-user-check"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-2">검증된 전문가</h3>
+            <p class="text-gray-600">철저한 검증 과정을 거친 전문가들만 활동하여 높은 품질의 서비스를 보장합니다.</p>
+          </div>
+        </div>
+        
+        <div class="feature-card flex p-6 bg-white rounded-lg shadow-md hover-lift fade-in delay-400">
+          <div class="feature-icon text-4xl text-accent mr-6">
+            <i class="fas fa-lock"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-2">안전한 결제 시스템</h3>
+            <p class="text-gray-600">단계별 결제와 에스크로 시스템으로 안전하게 서비스를 이용할 수 있습니다.</p>
+          </div>
+        </div>
+        
+        <div class="feature-card flex p-6 bg-white rounded-lg shadow-md hover-lift fade-in delay-500">
+          <div class="feature-icon text-4xl text-accent mr-6">
+            <i class="fas fa-medal"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-2">만족도 보장 정책</h3>
+            <p class="text-gray-600">서비스에 만족하지 못할 경우 규정에 따라 환불 및 조정이 가능합니다.</p>
+          </div>
+        </div>
+        
+        <div class="feature-card flex p-6 bg-white rounded-lg shadow-md hover-lift fade-in delay-600">
+          <div class="feature-icon text-4xl text-accent mr-6">
+            <i class="fas fa-comments"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-2">편리한 소통 시스템</h3>
+            <p class="text-gray-600">전문가와 실시간 채팅, 파일 공유 등 원활한 소통 기능을 제공합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- 성공 사례 섹션 -->
+  <section class="success-cases py-[80px] px-[5%]">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="section-title">
+        <h2 class="fade-in">고객 성공 사례</h2>
+        <p class="fade-in delay-200">Do-ing의 서비스로 변화된 공간들을 살펴보세요</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+        <!-- 첫 번째 사례 -->
+        <div class="case-card bg-white rounded-lg overflow-hidden shadow-md hover-lift fade-in delay-300">
+          <div class="grid grid-cols-2 h-[250px]">
+            <div class="before-image relative">
+              <img src={getImagePath('services/before-1.svg')} alt="Before" class="w-full h-full object-cover">
+              <div class="absolute top-2 left-2 bg-gray-800 text-white text-xs px-2 py-1 rounded">Before</div>
+            </div>
+            <div class="after-image relative">
+              <img src={getImagePath('services/after-1.svg')} alt="After" class="w-full h-full object-cover">
+              <div class="absolute top-2 left-2 bg-accent text-white text-xs px-2 py-1 rounded">After</div>
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="text-lg font-semibold mb-2">카페 인테리어 리모델링</h3>
+            <p class="text-sm text-gray-600 mb-3">낡은 분위기의 카페를 현대적이고 아늑한 공간으로 탈바꿈했습니다.</p>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center">
+                <img src={getImagePath('experts/expert-2.svg')} alt="이지영" class="w-8 h-8 rounded-full mr-2">
+                <span class="text-sm">이지영 디자이너</span>
+              </div>
+              <div class="review">
+                <span class="text-yellow-500"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 두 번째 사례 -->
+        <div class="case-card bg-white rounded-lg overflow-hidden shadow-md hover-lift fade-in delay-400">
+          <div class="grid grid-cols-2 h-[250px]">
+            <div class="before-image relative">
+              <img src={getImagePath('services/before-2.svg')} alt="Before" class="w-full h-full object-cover">
+              <div class="absolute top-2 left-2 bg-gray-800 text-white text-xs px-2 py-1 rounded">Before</div>
+            </div>
+            <div class="after-image relative">
+              <img src={getImagePath('services/after-2.svg')} alt="After" class="w-full h-full object-cover">
+              <div class="absolute top-2 left-2 bg-accent text-white text-xs px-2 py-1 rounded">After</div>
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="text-lg font-semibold mb-2">주택 외관 리노베이션</h3>
+            <p class="text-sm text-gray-600 mb-3">오래된 단독주택의 외관을 현대적이고 세련된 디자인으로 개선했습니다.</p>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center">
+                <img src={getImagePath('experts/expert-1.svg')} alt="김태호" class="w-8 h-8 rounded-full mr-2">
+                <span class="text-sm">김태호 건축가</span>
+              </div>
+              <div class="review">
+                <span class="text-yellow-500"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-10">
+        <a href="#all-cases" class="btn px-8">더 많은 사례 보기</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- 전문가 하이라이트 -->
+  <section class="experts py-[80px] px-[5%] bg-gray-50">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="section-title">
+        <h2 class="fade-in">우수 전문가</h2>
+        <p class="fade-in delay-200">높은 평가를 받은 Do-ing의 전문가들을 만나보세요</p>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {experts.map((expert, index) => (
+          <div class={`expert-card bg-white rounded-lg shadow-md overflow-hidden hover-lift text-center fade-in delay-${(index+2)*100}`}>
+            <div class="expert-profile relative mb-4 pt-6">
+              <img src={getImagePath(expert.profile)} alt={expert.name} class="w-[120px] h-[120px] object-cover rounded-full mx-auto border-4 border-white shadow-md">
+              <div class="rating absolute bottom-0 right-1/2 transform translate-x-16 bg-accent text-white rounded-full text-sm py-1 px-2">
+                <i class="fas fa-star mr-1"></i> {expert.rating}
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="text-xl font-semibold mb-1">{expert.name}</h3>
+              <p class="text-accent mb-2">{expert.field}</p>
+              <p class="text-gray-600 text-sm mb-4">진행 프로젝트: {expert.projects}건</p>
+              <a href={`#expert-${expert.id}`} class="btn py-2 px-4 text-sm">프로필 보기</a>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div class="text-center mt-10">
+        <a href="#all-experts" class="btn px-8">모든 전문가 보기</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- 프로젝트 의뢰 CTA -->
+  <section class="project-cta py-[80px] px-[5%] bg-gradient-to-r from-accent to-accent-2 text-white">
+    <div class="max-w-[1000px] mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6 fade-in">나만의 프로젝트를 시작해보세요</h2>
+      <p class="text-xl mb-8 max-w-[700px] mx-auto fade-in delay-200">아이디어를 현실로 만들어 줄 전문가들이 기다리고 있습니다.<br>지금 바로 Do-ing과 함께 시작하세요.</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4 fade-in delay-300">
+        <a href="#request-project" class="btn bg-white text-accent hover:bg-gray-100">프로젝트 의뢰하기</a>
+        <a href="#find-expert" class="btn bg-transparent border-2 border-white hover:bg-white hover:text-accent">전문가 찾기</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- FAQ 섹션 -->
+  <section class="faq py-[80px] px-[5%]">
+    <div class="max-w-[1000px] mx-auto">
+      <div class="section-title">
+        <h2 class="fade-in">자주 묻는 질문</h2>
+        <p class="fade-in delay-200">서비스 이용에 관한 궁금증을 해결해 드립니다</p>
+      </div>
+      
+      <div class="mt-10 space-y-6">
+        {faqs.map((faq, index) => (
+          <div class={`faq-item bg-white rounded-lg shadow-md overflow-hidden fade-in delay-${(index+2)*100}`}>
+            <div class="faq-question p-6 font-semibold text-lg cursor-pointer flex justify-between items-center">
+              <span>{faq.question}</span>
+              <i class="fas fa-chevron-down text-accent"></i>
+            </div>
+            <div class="faq-answer p-6 pt-0 text-gray-600 border-t border-gray-100">
+              <p>{faq.answer}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  
+  <!-- 뉴스레터 구독 -->
+  <section class="newsletter py-[60px] px-[5%] bg-gray-50">
+    <div class="max-w-[800px] mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-4 fade-in">건축 및 인테리어 트렌드 뉴스레터 구독</h2>
+      <p class="text-gray-600 mb-6 fade-in delay-200">최신 트렌드와 프로모션 소식을 이메일로 받아보세요.</p>
+      <div class="flex flex-col sm:flex-row gap-2 max-w-[600px] mx-auto fade-in delay-300">
+        <input type="email" placeholder="이메일 주소를 입력하세요" class="flex-1 py-3 px-4 rounded-lg border border-gray-300 focus:outline-none focus:border-accent">
+        <button class="btn py-3 px-6 sm:px-10">구독하기</button>
+      </div>
+    </div>
+  </section>
+  
+</Layout>
+
+<script>
+  // FAQ 아코디언 기능
+  document.addEventListener('DOMContentLoaded', function() {
+    const faqItems = document.querySelectorAll('.faq-question');
+    
+    faqItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const answer = item.nextElementSibling;
+        const icon = item.querySelector('i');
+        
+        // 현재 활성화된 FAQ 닫기
+        const activeItems = document.querySelectorAll('.faq-answer[style*="max-height"]');
+        const activeIcons = document.querySelectorAll('.faq-question i.fa-chevron-up');
+        
+        activeItems.forEach(activeItem => {
+          if (activeItem !== answer) {
+            activeItem.style.maxHeight = null;
+          }
+        });
+        
+        activeIcons.forEach(activeIcon => {
+          if (activeIcon !== icon) {
+            activeIcon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+          }
+        });
+        
+        // 토글 애니메이션
+        if (answer.style.maxHeight) {
+          answer.style.maxHeight = null;
+          icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+        } else {
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+          icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+        }
+      });
+    });
+    
+    // 카테고리 및 서비스 카드 호버 효과 강화
+    const categoryCards = document.querySelectorAll('.category-card');
+    categoryCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        const icon = card.querySelector('.category-icon');
+        if (icon) {
+          icon.classList.add('animate-pulse');
+        }
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        const icon = card.querySelector('.category-icon');
+        if (icon) {
+          icon.classList.remove('animate-pulse');
+        }
+      });
+    });
+    
+    // 서비스 이미지 호버 효과
+    const serviceImages = document.querySelectorAll('.service-image');
+    serviceImages.forEach(imgContainer => {
+      imgContainer.addEventListener('mouseenter', () => {
+        const img = imgContainer.querySelector('img');
+        if (img) {
+          img.style.transform = 'scale(1.05)';
+        }
+      });
+      
+      imgContainer.addEventListener('mouseleave', () => {
+        const img = imgContainer.querySelector('img');
+        if (img) {
+          img.style.transform = 'scale(1)';
+        }
+      });
+    });
+    
+    // 검색 바 포커스 효과
+    const searchInput = document.querySelector('.search-bar input');
+    if (searchInput) {
+      searchInput.addEventListener('focus', () => {
+        const searchBar = document.querySelector('.search-bar');
+        searchBar.classList.add('ring-2', 'ring-accent', 'ring-opacity-50');
+      });
+      
+      searchInput.addEventListener('blur', () => {
+        const searchBar = document.querySelector('.search-bar');
+        searchBar.classList.remove('ring-2', 'ring-accent', 'ring-opacity-50');
+      });
+    }
+  });
+</script>
+
+<style>
+  /* 히어로 섹션 배경 */
+  .hero {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/images/pattern-bg.svg');
+    background-size: cover;
+    opacity: 0.1;
+    z-index: 0;
+  }
+  
+  /* 카테고리 카드 스타일 */
+  .category-card {
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+  }
+  
+  .category-card:hover {
+    border-bottom-color: var(--accent-color);
+  }
+  
+  /* 서비스 카드 스타일 */
+  .service-image img {
+    transition: transform 0.5s ease;
+  }
+  
+  .service-card {
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+  }
+  
+  .service-card:hover {
+    z-index: 2;
+  }
+  
+  /* 전문가 카드 스타일 */
+  .expert-profile img {
+    transition: all 0.3s ease;
+  }
+  
+  .expert-card:hover .expert-profile img {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* FAQ 아코디언 스타일 */
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  
+  .faq-question {
+    transition: all 0.3s ease;
+  }
+  
+  .faq-question:hover {
+    background-color: rgba(76, 165, 208, 0.05);
+  }
+  
+  /* 검색 바 스타일 */
+  .search-bar {
+    transition: all 0.3s ease;
+  }
+  
+  /* 서비스 이용 가이드 스타일 */
+  .step-icon {
+    transition: all 0.3s ease;
+  }
+  
+  .step-card:hover .step-icon {
+    transform: scale(1.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* 반응형 스타일 */
+  @media (max-width: 768px) {
+    .search-bar {
+      flex-direction: column;
+      border-radius: 12px;
+      padding: 1rem;
+    }
+    
+    .search-bar select,
+    .search-bar button {
+      width: 100%;
+      margin-top: 0.5rem;
+      margin-right: 0;
+    }
+    
+    .section-title h2 {
+      font-size: 1.75rem;
+    }
+    
+    .section-title p {
+      font-size: 1rem;
+    }
+    
+    .feature-card {
+      flex-direction: column;
+    }
+    
+    .feature-icon {
+      margin-right: 0;
+      margin-bottom: 1rem;
+    }
+    
+    .feature-card h3 {
+      text-align: center;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .expert-card {
+      max-width: 280px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .project-cta h2 {
+      font-size: 1.5rem;
+    }
+    
+    .project-cta p {
+      font-size: 1rem;
+    }
+  }
+</style>
+</function_results>
+
+
+
+
+
+
+
+이제 관련 이미지 파일을 저장할 디렉터리를 만들겠습니다:
+
+<function_calls>
+<invoke name="create_directory">
+<parameter name="path">F:\Project\doing-new\public\images\services
