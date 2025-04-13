@@ -1,0 +1,49 @@
+---
+import { getImagePath } from '../utils/paths.js';
+
+const aboutImage = getImagePath('interior-design-1.avif');
+---
+
+<section id="about" class="about py-[100px] px-5 bg-light">
+  <div class="about-container flex max-w-[1200px] mx-auto flex-col lg:flex-row items-center">
+    <div class="about-image flex-1 lg:pr-[50px] mb-[30px] lg:mb-0">
+      <img 
+        src={aboutImage} 
+        alt="현종디자인 회사 이미지" 
+        class="w-full rounded-lg shadow-2xl transition-transform duration-500 hover:scale-[1.03]"
+      >
+    </div>
+    
+    <div class="about-content flex-1">
+      <h2 class="text-[36px] text-primary mb-5 relative after:content-[''] after:absolute after:bottom-[-10px] after:left-0 after:w-20 after:h-[3px] after:bg-gradient-to-r after:from-accent after:to-accent-2">
+        현종디자인(주) 소개
+      </h2>
+      <p class="mb-5 text-base leading-8 opacity-0 transform translate-y-8">
+        현종디자인은 2010년 설립된 이래로 <span class="accent-text">"하자!"</span>라는 슬로건 아래 건축자재 유통과 인력시장을 하나로 통합한 혁신적인 비즈니스 모델을 선보여 왔습니다. 저희는 "모두 모아서 한번에 해결하자"는 철학으로 고객의 성공적인 프로젝트 완수를 위한 진정한 파트너입니다.
+      </p>
+      <p class="mb-5 text-base leading-8 opacity-0 transform translate-y-8">
+        건설 현장에 필요한 모든 것을 <span class="accent-text">한곳에서 해결(Do-Ing)</span>할 수 있도록 최신 물류 시스템과 철저한 품질 관리, 그리고 전국적인 네트워크를 구축했습니다. 저희는 단순한 공급자가 아닌, 고객의 비즈니스 성장을 함께 고민하는 동반자입니다.
+      </p>
+      <p class="mb-5 text-base leading-8 opacity-0 transform translate-y-8">
+        현종디자인은 "진행하자"라는 의미의 <span class="accent-text">Do-Ing</span> 정신으로 항상 고객의 니즈를 파악하고 발 빠르게 대응합니다. 저희와 함께라면 자재 구매부터 인력 관리까지, 모든 건설 리소스를 효율적으로 활용하여 프로젝트의 성공을 경험하실 수 있습니다.
+      </p>
+      <a href="#contact" class="btn opacity-0 transform translate-y-8">
+        문의하기
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* 반응형 */
+  @media (max-width: 992px) {
+    .about-container {
+      flex-direction: column;
+    }
+    
+    .about-image {
+      padding-right: 0;
+      margin-bottom: 30px;
+    }
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+---
+
+<header class="fixed w-full bg-white shadow-md z-50 transition-all duration-300">
+  <div class="header-container flex justify-between items-center py-5 px-[8%] max-w-[1400px] mx-auto">
+    <div class="logo text-[28px] font-bold text-primary relative">
+      <a href="#" class="flex items-center">
+        <span class="inline-block w-[8px] h-[28px] bg-gradient-to-r from-accent to-accent-2 mr-[10px] rounded-[2px]"></span>
+        Do-<span class="gradient-text">Ing</span>
+      </a>
+    </div>
+    <nav>
+      <ul class="flex">
+        <li class="ml-[30px] font-medium relative">
+          <a href="#home" class="after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-accent after:to-accent-2 after:transition-all hover:after:w-full">홈</a>
+        </li>
+        <li class="ml-[30px] font-medium relative">
+          <a href="#services" class="after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-accent after:to-accent-2 after:transition-all hover:after:w-full">서비스</a>
+        </li>
+        <li class="ml-[30px] font-medium relative">
+          <a href="#about" class="after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-accent after:to-accent-2 after:transition-all hover:after:w-full">회사소개</a>
+        </li>
+        <li class="ml-[30px] font-medium relative">
+          <a href="#projects" class="after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-accent after:to-accent-2 after:transition-all hover:after:w-full">프로젝트</a>
+        </li>
+        <li class="ml-[30px] font-medium relative">
+          <a href="#contact" class="after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-accent after:to-accent-2 after:transition-all hover:after:w-full">문의하기</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  /* 모바일 반응형 */
+  @media (max-width: 768px) {
+    .header-container {
+      flex-direction: column;
+    }
+    
+    nav ul {
+      margin-top: 20px;
+    }
+    
+    nav li {
+      margin: 0 10px;
+    }
+  }
+</style>

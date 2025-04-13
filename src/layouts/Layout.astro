@@ -1,22 +1,275 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  </head>
+  <body style="background-color: #f5faff; color: #283747;">
+    <slot />
+    
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log("DOM 로드 완료");
+        
+        // 부드러운 스크롤링
+        const anchors = document.querySelectorAll('a[href^="#"]');
+        anchors.forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // 스크롤 시 헤더 스타일 변경
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (header) {
+                if (window.scrollY > 50) {
+                    header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                    header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                } else {
+                    header.style.backgroundColor = 'white';
+                    header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                }
+            }
+        });
+        
+        // 캐러셀 기능 초기화
+        const carousel = {
+            slides: document.querySelectorAll('.carousel-slide'),
+            indicators: document.querySelectorAll('.carousel-indicator'),
+            currentSlide: 0,
+            slideInterval: null,
+            
+            // 초기화
+            init: function() {
+                if (this.slides.length === 0) return;
+                
+                // 첫 번째 슬라이드 활성화
+                this.slides[0].classList.add('active');
+                if (this.indicators.length > 0) {
+                    this.indicators[0].classList.add('active');
+                }
+                
+                // 인디케이터 클릭 이벤트
+                this.indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => {
+                        this.goToSlide(index);
+                        this.resetInterval();
+                    });
+                });
+                
+                // 자동 슬라이드 시작
+                this.startAutoSlide();
+                
+                // 캐러셀에 마우스 올리면 정지
+                const carouselContainer = document.querySelector('.carousel-container');
+                if (carouselContainer) {
+                    carouselContainer.addEventListener('mouseenter', () => this.pauseAutoSlide());
+                    carouselContainer.addEventListener('mouseleave', () => this.startAutoSlide());
+                }
+            },
+            
+            // 특정 슬라이드로 이동
+            goToSlide: function(index) {
+                // 현재 슬라이드 비활성화
+                this.slides[this.currentSlide].classList.remove('active');
+                if (this.indicators.length > this.currentSlide) {
+                    this.indicators[this.currentSlide].classList.remove('active');
+                }
+                
+                // 새 슬라이드 인덱스 설정
+                this.currentSlide = index;
+                
+                // 범위 체크
+                if (this.currentSlide >= this.slides.length) {
+                    this.currentSlide = 0;
+                }
+                
+                // 새 슬라이드 활성화
+                this.slides[this.currentSlide].classList.add('active');
+                if (this.indicators.length > this.currentSlide) {
+                    this.indicators[this.currentSlide].classList.add('active');
+                }
+            },
+            
+            // 다음 슬라이드로 이동
+            nextSlide: function() {
+                this.goToSlide(this.currentSlide + 1);
+            },
+            
+            // 자동 슬라이드 시작
+            startAutoSlide: function() {
+                if (this.slideInterval) {
+                    clearInterval(this.slideInterval);
+                }
+                this.slideInterval = setInterval(() => {
+                    this.nextSlide();
+                }, 5000);
+            },
+            
+            // 자동 슬라이드 정지
+            pauseAutoSlide: function() {
+                if (this.slideInterval) {
+                    clearInterval(this.slideInterval);
+                    this.slideInterval = null;
+                }
+            },
+            
+            // 슬라이드 재시작
+            resetInterval: function() {
+                this.pauseAutoSlide();
+                this.startAutoSlide();
+            }
+        };
+        
+        // 캐러셀 초기화
+        carousel.init();
+        
+        // 애니메이션 효과 추가
+        const addAnimations = () => {
+            // 서비스 박스 애니메이션
+            const serviceBoxes = document.querySelectorAll('.service-box');
+            const serviceObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fadeInUp', 'opacity-100');
+                        serviceObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            });
+            
+            serviceBoxes.forEach(box => {
+                box.classList.add('opacity-0');
+                serviceObserver.observe(box);
+            });
+            
+            // 프로젝트 박스 애니메이션
+            const projectBoxes = document.querySelectorAll('.project-box');
+            const projectObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fadeInUp', 'opacity-100');
+                        projectObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            });
+            
+            projectBoxes.forEach((box, index) => {
+                box.classList.add('opacity-0');
+                box.style.animationDelay = `${0.1 * index}s`;
+                projectObserver.observe(box);
+            });
+            
+            // 회사 소개 섹션 애니메이션
+            const aboutContent = document.querySelector('.about-content');
+            if (aboutContent) {
+                const aboutElements = aboutContent.querySelectorAll('h2, p, .btn');
+                const aboutObserver = new IntersectionObserver(entries => {
+                    if (entries[0].isIntersecting) {
+                        aboutElements.forEach((el, index) => {
+                            el.classList.add('animate-fadeInUp', 'opacity-100');
+                            el.style.animationDelay = `${0.2 * index}s`;
+                        });
+                        aboutObserver.unobserve(aboutContent);
+                    }
+                }, { threshold: 0.2 });
+                
+                aboutElements.forEach(el => {
+                    el.classList.add('opacity-0');
+                });
+                
+                aboutObserver.observe(aboutContent);
+            }
+        };
+        
+        // 애니메이션 적용
+        addAnimations();
+        
+        // 커서 효과 초기화
+        const initializeCursorEffect = () => {
+            const cursorEffect = document.createElement('div');
+            cursorEffect.classList.add('cursor-effect');
+            document.body.appendChild(cursorEffect);
+            
+            // 커서 스타일
+            cursorEffect.style.position = 'fixed';
+            cursorEffect.style.width = '30px';
+            cursorEffect.style.height = '30px';
+            cursorEffect.style.borderRadius = '50%';
+            cursorEffect.style.border = '2px solid rgb(76, 165, 208)';
+            cursorEffect.style.pointerEvents = 'none';
+            cursorEffect.style.transform = 'translate(-50%, -50%)';
+            cursorEffect.style.transition = 'width 0.3s, height 0.3s, opacity 0.3s';
+            cursorEffect.style.zIndex = '9999';
+            cursorEffect.style.opacity = '0.6';
+            
+            // 마우스 이동 시 커서 이동
+            document.addEventListener('mousemove', function(e) {
+                cursorEffect.style.left = e.clientX + 'px';
+                cursorEffect.style.top = e.clientY + 'px';
+                
+                // 버튼/링크 위에 호버 효과
+                const target = e.target;
+                if (
+                    target.tagName.toLowerCase() === 'a' || 
+                    target.tagName.toLowerCase() === 'button' || 
+                    target.classList.contains('btn') ||
+                    target.closest('.btn') ||
+                    target.closest('a')
+                ) {
+                    cursorEffect.style.width = '50px';
+                    cursorEffect.style.height = '50px';
+                    cursorEffect.style.backgroundColor = 'rgba(255, 107, 61, 0.1)';
+                } else {
+                    cursorEffect.style.width = '30px';
+                    cursorEffect.style.height = '30px';
+                    cursorEffect.style.backgroundColor = 'transparent';
+                }
+            });
+            
+            // 마우스 창 이탈 시 숨김
+            document.addEventListener('mouseleave', function() {
+                cursorEffect.style.opacity = '0';
+            });
+            
+            // 마우스 창 진입 시 표시
+            document.addEventListener('mouseenter', function() {
+                cursorEffect.style.opacity = '0.6';
+            });
+        };
+        
+        // 커서 효과 초기화
+        initializeCursorEffect();
+      });
+    </script>
+  </body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<style is:global>
+  @import "../styles/global.css";
 </style>

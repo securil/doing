@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 기본 변수 정의 */
+:root {
+  --primary-color: #2c4a6d;
+  --secondary-color: #3e6189;
+  --accent-color: #4ca5d0;
+  --accent-color-2: #2980b9;
+  --light-color: #f5faff;
+  --dark-color: #283747;
+  --transition: all 0.3s ease;
+  --primary-gradient: linear-gradient(to right, var(--accent-color), var(--accent-color-2));
+}
+
+/* Base Styles */
+@layer base {
+  body {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.6;
+  }
+
+  a {
+    @apply no-underline text-inherit;
+  }
+
+  ul {
+    @apply list-none;
+  }
+}
+
+/* Custom Animations */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes highlightText {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Custom Utilities */
+@layer utilities {
+  .animate-fadeInUp {
+    animation: fadeInUp 0.8s ease forwards !important;
+  }
+  
+  .animate-pulse {
+    animation: pulse 2s infinite;
+  }
+  
+  .animate-highlight {
+    animation: highlightText 3s linear infinite;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-accent to-accent-2 bg-clip-text text-transparent;
+  }
+  
+  /* Gradient utilities */
+  .from-accent {
+    --tw-gradient-from: #4ca5d0;
+    --tw-gradient-to: rgba(76, 165, 208, 0);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  }
+  
+  .to-accent-2 {
+    --tw-gradient-to: #2980b9;
+  }
+  
+  .via-accent-2 {
+    --tw-gradient-stops: var(--tw-gradient-from), #2980b9, var(--tw-gradient-to);
+  }
+  
+  .btn {
+    @apply inline-block py-3 px-8 bg-accent text-white border-none rounded text-base cursor-pointer transition-all font-medium relative overflow-hidden z-10;
+  }
+  
+  .btn:hover {
+    @apply bg-[#e85a2f] -translate-y-1;
+  }
+  
+  .btn::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-full bg-white bg-opacity-20 z-[-1] scale-x-0 origin-right transition-all duration-300;
+  }
+  
+  .btn:hover::after {
+    @apply scale-x-100 origin-left;
+  }
+  
+  .highlight-text {
+    @apply inline-block text-accent font-bold relative py-0 px-1 animate-pulse;
+  }
+  
+  .highlight-text::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-[30%] bg-accent bg-opacity-20 z-[-1];
+  }
+  
+  .accent-text {
+    @apply font-semibold bg-gradient-to-r from-accent via-accent-2 to-accent bg-[length:200%_auto] bg-clip-text text-transparent animate-highlight;
+  }
+  
+  .section-title {
+    @apply text-center mb-16;
+  }
+  
+  .section-title h2 {
+    @apply text-4xl text-primary mb-4 relative inline-block;
+  }
+  
+  .section-title h2::after {
+    content: '';
+    @apply absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-20 h-[3px] bg-gradient-to-r from-accent to-accent-2;
+  }
+  
+  .section-title p {
+    @apply text-lg text-secondary max-w-[700px] mx-auto;
+  }
+  
+  .cursor-effect {
+    @apply fixed w-[30px] h-[30px] rounded-full border-2 border-accent pointer-events-none transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 z-[9999] opacity-60;
+  }
+}

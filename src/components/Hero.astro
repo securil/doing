@@ -1,0 +1,174 @@
+---
+import '../styles/hero.css';
+import { getImagePath } from '../utils/paths.js';
+
+// 이미지 경로 - 직접 명시적으로 설정 
+const slide1Image = '/images/construction-worker-1.avif';
+const slide2Image = '/images/building-exterior-1.avif';
+const slide3Image = '/images/construction-worker-2.avif';
+
+// 디버깅용 출력
+console.log('슬라이드 이미지 경로:', slide1Image, slide2Image, slide3Image);
+---
+
+<section id="home" class="hero h-screen relative text-white pt-20 overflow-hidden">
+  <div class="carousel-container w-full h-full relative">
+    <div class="carousel-slides w-full h-full relative">
+      <!-- 슬라이드 1 -->
+      <div class="carousel-slide absolute top-0 left-0 w-full h-full opacity-1 transition-opacity duration-1000 flex items-center justify-center bg-cover bg-center before:content-[''] before:absolute before:inset-0 before:bg-black before:bg-opacity-60" style={`background-image: url(${slide1Image});`}>
+        <div class="hero-content max-w-[1200px] mx-auto px-5 text-center z-10">
+          <h1 class="text-[48px] mb-5 font-bold opacity-1 transform translate-y-0 animate-fadeInUp" style="animation-delay: 0.3s;">
+            건축자재와 인력, 모두 <span class="highlight-text">하자!</span>
+          </h1>
+          <h2 class="text-[24px] mb-8 font-light opacity-1 transform translate-y-0 animate-fadeInUp" style="animation-delay: 0.6s;">
+            현종디자인과 함께 모든 건설 자원을 한곳에서 해결하세요
+          </h2>
+          <a href="#contact" class="btn opacity-1 transform translate-y-0 animate-fadeInUp" style="animation-delay: 0.9s;">
+            문의하기
+          </a>
+        </div>
+      </div>
+      
+      <!-- 슬라이드 2 -->
+      <div class="carousel-slide absolute top-0 left-0 w-full h-full opacity-0 transition-opacity duration-1000 flex items-center justify-center bg-cover bg-center before:content-[''] before:absolute before:inset-0 before:bg-black before:bg-opacity-60" style={`background-image: url(${slide2Image});`}>
+        <div class="hero-content max-w-[1200px] mx-auto px-5 text-center z-10">
+          <h1 class="text-[48px] mb-5 font-bold">
+            필요한 자재 <span class="highlight-text">모아하자!</span>
+          </h1>
+          <h2 class="text-[24px] mb-8 font-light">
+            모든 건축자재를 한번에 모아서 공급하는 원스톱 솔루션
+          </h2>
+          <a href="#services" class="btn">
+            서비스 보기
+          </a>
+        </div>
+      </div>
+      
+      <!-- 슬라이드 3 -->
+      <div class="carousel-slide absolute top-0 left-0 w-full h-full opacity-0 transition-opacity duration-1000 flex items-center justify-center bg-cover bg-center before:content-[''] before:absolute before:inset-0 before:bg-black before:bg-opacity-60" style={`background-image: url(${slide3Image});`}>
+        <div class="hero-content max-w-[1200px] mx-auto px-5 text-center z-10">
+          <h1 class="text-[48px] mb-5 font-bold">
+            전문 인력 <span class="highlight-text">구하자!</span>
+          </h1>
+          <h2 class="text-[24px] mb-8 font-light">
+            검증된 전문가들과 함께 프로젝트를 성공적으로 진행하자
+          </h2>
+          <a href="#projects" class="btn">
+            프로젝트 보기
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 캐러셀 내비게이션 -->
+    <div class="carousel-navigation absolute bottom-[30px] left-1/2 transform -translate-x-1/2 flex z-20">
+      <button class="carousel-indicator w-[12px] h-[12px] rounded-full border-2 border-white bg-transparent mx-2 p-0 cursor-pointer transition-all hover:bg-accent hover:border-accent" data-slide="0"></button>
+      <button class="carousel-indicator w-[12px] h-[12px] rounded-full border-2 border-white bg-transparent mx-2 p-0 cursor-pointer transition-all hover:bg-accent hover:border-accent" data-slide="1"></button>
+      <button class="carousel-indicator w-[12px] h-[12px] rounded-full border-2 border-white bg-transparent mx-2 p-0 cursor-pointer transition-all hover:bg-accent hover:border-accent" data-slide="2"></button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .carousel-indicator.active {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+  }
+  
+  /* 모바일 반응형 */
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 36px;
+    }
+    
+    .hero h2 {
+      font-size: 18px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 슬라이드 요소들
+    const slides = document.querySelectorAll('.carousel-slide');
+    const indicators = document.querySelectorAll('.carousel-indicator');
+    let currentSlide = 0;
+    let slideInterval;
+
+    console.log('캐러셀 초기화 시작');
+    console.log('슬라이드 개수:', slides.length);
+    console.log('인디케이터 개수:', indicators.length);
+
+    // 초기 슬라이드 설정
+    slides.forEach((slide, index) => {
+      if (index === 0) {
+        slide.style.opacity = '1'; // 첫 번째 슬라이드 표시
+        slide.style.zIndex = '1';
+      } else {
+        slide.style.opacity = '0'; // 나머지 슬라이드 숨김
+        slide.style.zIndex = '0';
+      }
+    });
+
+    // 첫 번째 인디케이터 활성화
+    if (indicators.length > 0) {
+      indicators[0].classList.add('active');
+    }
+
+    // 슬라이드 표시 함수
+    function showSlide(index) {
+      console.log(`슬라이드 ${index} 표시`);
+      
+      // 모든 슬라이드 숨기기
+      slides.forEach(slide => {
+        slide.style.opacity = '0';
+        slide.style.zIndex = '0';
+      });
+      
+      // 선택한 슬라이드 표시
+      slides[index].style.opacity = '1';
+      slides[index].style.zIndex = '1';
+      
+      // 인디케이터 업데이트
+      indicators.forEach((indicator, i) => {
+        if (i === index) {
+          indicator.classList.add('active');
+        } else {
+          indicator.classList.remove('active');
+        }
+      });
+      
+      // 애니메이션 요소 활성화
+      const animElements = slides[index].querySelectorAll('.animate-fadeInUp');
+      animElements.forEach(elem => {
+        elem.style.opacity = '1';
+        elem.style.transform = 'translateY(0)';
+      });
+    }
+
+    // 다음 슬라이드로 이동
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    // 인디케이터 클릭 이벤트
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => {
+        console.log(`인디케이터 ${index} 클릭됨`);
+        currentSlide = index;
+        showSlide(currentSlide);
+        resetInterval();
+      });
+    });
+
+    // 자동 슬라이드 간격 초기화
+    function resetInterval() {
+      clearInterval(slideInterval);
+      slideInterval = setInterval(nextSlide, 5000);
+    }
+
+    // 자동 슬라이드 시작
+    resetInterval();
+  });
+</script>

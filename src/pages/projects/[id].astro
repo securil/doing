@@ -1,0 +1,228 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getProjectById } from '../../firebase/projectService';
+
+// 동적 경로로부터 프로젝트 ID 가져오기
+const { id } = Astro.params;
+
+// 프로젝트 기본 정보 (파이어베이스 연결 실패 시 사용할 대체 데이터)
+let project = {
+  id: id,
+  title: '프로젝트 상세 정보',
+  description: '이 프로젝트는 현재 로드 중이거나 찾을 수 없습니다.',
+  fullDescription: '죄송합니다. 현재 프로젝트 정보를 불러올 수 없습니다. 잠시 후 다시 시도해주세요.',
+  imageUrl: '/doing/images/construction-material-1.avif',
+  client: '클라이언트 정보',
+  location: '위치 정보',
+  year: '2025',
+  category: '건설 프로젝트',
+  services: ['자재 공급', '인력 관리'],
+};
+
+// 실제 프로젝트 데이터 가져오기 시도
+try {
+  if (id) {
+    const projectData = await getProjectById(id);
+    if (projectData) {
+      project = projectData;
+    }
+  }
+} catch (error) {
+  console.error('프로젝트 정보 로드 실패:', error);
+  // 에러 발생 시 기본 정보 사용
+}
+
+// 프로젝트 스켈레톤 데이터 (하단 관련 프로젝트용)
+const relatedProjects = [
+  {
+    id: 'project1',
+    title: '서울 신도림 주상복합',
+    imageUrl: '/doing/images/construction-material-1.avif'
+  },
+  {
+    id: 'project2',
+    title: '부산 해운대 오피스텔',
+    imageUrl: '/doing/images/modern-building-1.avif'
+  },
+  {
+    id: 'project3',
+    title: '인천 송도 비즈니스 센터',
+    imageUrl: '/doing/images/interior-design-2.avif'
+  }
+];
+---
+
+<Layout title={`${project.title} | 현종디자인(주)`}>
+  <Header />
+  
+  <main class="pt-24">
+    <!-- 프로젝트 헤더 -->
+    <section class="bg-gradient-to-r from-primary to-secondary text-white py-20">
+      <div class="max-w-7xl mx-auto px-5">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">{project.title}</h1>
+        <p class="text-xl mb-6">{project.description}</p>
+        <div class="flex items-center">
+          <a href="/" class="text-white hover:text-accent transition-colors">홈</a>
+          <span class="mx-2">›</span>
+          <a href="/#projects" class="text-white hover:text-accent transition-colors">프로젝트</a>
+          <span class="mx-2">›</span>
+          <span class="text-accent">{project.title}</span>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 프로젝트 상세 -->
+    <section class="py-16">
+      <div class="max-w-7xl mx-auto px-5 grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- 프로젝트 이미지 -->
+        <div class="lg:col-span-2">
+          <img 
+            src={project.imageUrl} 
+            alt={project.title} 
+            class="w-full h-auto rounded-lg shadow-xl mb-8"
+          />
+          
+          <div class="prose max-w-none">
+            <h2 class="text-3xl text-primary mb-6">프로젝트 개요</h2>
+            <div class="text-base leading-relaxed mb-8">
+              <p>{project.fullDescription || project.description}</p>
+            </div>
+            
+            <!-- 프로젝트 갤러리 -->
+            <h2 class="text-3xl text-primary mb-6">프로젝트 갤러리</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+              <img 
+                src="/doing/images/construction-site-1.avif" 
+                alt="프로젝트 이미지 1" 
+                class="w-full h-64 object-cover rounded-lg shadow-md"
+              />
+              <img 
+                src="/doing/images/construction-site-2.avif" 
+                alt="프로젝트 이미지 2" 
+                class="w-full h-64 object-cover rounded-lg shadow-md"
+              />
+              <img 
+                src="/doing/images/building-exterior-1.avif" 
+                alt="프로젝트 이미지 3" 
+                class="w-full h-64 object-cover rounded-lg shadow-md"
+              />
+              <img 
+                src="/doing/images/modern-building-1.avif" 
+                alt="프로젝트 이미지 4" 
+                class="w-full h-64 object-cover rounded-lg shadow-md"
+              />
+            </div>
+            
+            <!-- 프로젝트 결과 및 성과 -->
+            <h2 class="text-3xl text-primary mb-6">프로젝트 결과</h2>
+            <p class="mb-4">이 프로젝트를 통해 고객은 다음과 같은 이점을 얻었습니다:</p>
+            <ul class="list-disc pl-6 mb-8">
+              <li class="mb-2">고품질 건축자재의 안정적인 공급으로 공사 지연 방지</li>
+              <li class="mb-2">검증된 전문 인력 제공으로 높은 완성도 달성</li>
+              <li class="mb-2">통합 물류 시스템을 통한 비용 절감</li>
+              <li class="mb-2">프로젝트 일정 준수 및 조기 완공</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- 프로젝트 정보 사이드바 -->
+        <div class="lg:col-span-1">
+          <div class="bg-light rounded-lg shadow-md p-8 mb-8">
+            <h3 class="text-2xl text-primary mb-6 pb-4 border-b border-gray-200">프로젝트 정보</h3>
+            
+            <div class="mb-4">
+              <h4 class="text-lg font-bold text-secondary mb-1">고객사</h4>
+              <p>{project.client || '정보 없음'}</p>
+            </div>
+            
+            <div class="mb-4">
+              <h4 class="text-lg font-bold text-secondary mb-1">위치</h4>
+              <p>{project.location || '정보 없음'}</p>
+            </div>
+            
+            <div class="mb-4">
+              <h4 class="text-lg font-bold text-secondary mb-1">완료 연도</h4>
+              <p>{project.year || '정보 없음'}</p>
+            </div>
+            
+            <div class="mb-4">
+              <h4 class="text-lg font-bold text-secondary mb-1">프로젝트 유형</h4>
+              <p>{project.category || '정보 없음'}</p>
+            </div>
+            
+            <div>
+              <h4 class="text-lg font-bold text-secondary mb-1">제공 서비스</h4>
+              <ul class="list-none">
+                {project.services && project.services.map((service: string) => (
+                  <li class="mb-1 flex items-center">
+                    <i class="fas fa-check text-accent mr-2"></i>
+                    {service}
+                  </li>
+                ))}
+                {!project.services && <li>정보 없음</li>}
+              </ul>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-lg shadow-md p-8">
+            <h3 class="text-2xl text-primary mb-6">문의하기</h3>
+            <p class="mb-4">이 프로젝트와 유사한 서비스가 필요하신가요? 지금 바로 연락주세요.</p>
+            <a href="/#contact" class="btn inline-block w-full py-3 px-6 bg-accent text-white text-center rounded transition-all hover:bg-[#e85a2f] hover:translate-y-[-3px] hover:shadow-lg">
+              <i class="fas fa-envelope mr-2"></i> 문의하기
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 관련 프로젝트 -->
+    <section class="py-16 bg-light">
+      <div class="max-w-7xl mx-auto px-5">
+        <h2 class="text-3xl text-primary mb-10 text-center">관련 프로젝트</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {relatedProjects.map((relatedProject) => (
+            <a href={`/projects/${relatedProject.id}`} class="block group">
+              <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:translate-y-[-5px]">
+                <div class="relative aspect-video overflow-hidden">
+                  <img 
+                    src={relatedProject.imageUrl} 
+                    alt={relatedProject.title} 
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <span class="text-white font-medium">자세히 보기</span>
+                  </div>
+                </div>
+                <div class="p-4">
+                  <h3 class="text-xl font-semibold text-primary group-hover:text-accent transition-colors">{relatedProject.title}</h3>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+    
+    <!-- CTA 섹션 -->
+    <section class="py-16 bg-gradient-to-r from-primary to-secondary text-white text-center">
+      <div class="max-w-4xl mx-auto px-5">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">당신의 프로젝트를 함께 <span class="gradient-text">하자!</span></h2>
+        <p class="text-xl mb-8">현종디자인과 함께라면 모든 건축자재와 인력을 한번에 해결할 수 있습니다.</p>
+        <a href="/#contact" class="btn inline-block px-8 py-4 bg-accent text-white rounded-lg text-lg transition-all hover:bg-[#e85a2f] hover:translate-y-[-3px] hover:shadow-lg">
+          지금 문의하기
+        </a>
+      </div>
+    </section>
+  </main>
+  
+  <Footer />
+</Layout>
+
+<style>
+  .gradient-text {
+    @apply bg-gradient-to-r from-accent to-accent-2 bg-clip-text text-transparent;
+  }
+</style>
