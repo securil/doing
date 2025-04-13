@@ -11,19 +11,36 @@ function getPageUrl(path) {
 // 중요 URL 설정
 const buildlinkUrl = getPageUrl('/buildlink');
 const homeUrl = getPageUrl('/');
-const servicesUrl = getPageUrl('/services/marketplace');
+const marketplaceUrl = getPageUrl('/services/marketplace');
 
 // 현재 페이지 확인
 const currentPath = Astro.url.pathname;
 // BasePath를 제거한 실제 경로 확인
 const pathWithoutBase = currentPath.replace(import.meta.env.BASE_URL || '/', '/');
 const isHomePage = pathWithoutBase === '/' || pathWithoutBase === '/index.html' || pathWithoutBase === 'index.html';
+const isMarketplace = pathWithoutBase.includes('/services/marketplace');
+const isBuildlink = pathWithoutBase.includes('/buildlink');
 
-// 디버그 - 개발 시 확인용 (배포 전 제거)
-console.log('currentPath:', currentPath);
-console.log('pathWithoutBase:', pathWithoutBase);
-console.log('isHomePage:', isHomePage);
-console.log('homeUrl:', homeUrl);
+// 메뉴 데이터 정의
+const homeSubmenus = [
+  { name: "Services", href: isHomePage ? "#services" : `${homeUrl}#services` },
+  { name: "About", href: isHomePage ? "#about" : `${homeUrl}#about` },
+  { name: "Projects", href: isHomePage ? "#projects" : `${homeUrl}#projects` }
+];
+
+const marketplaceSubmenus = [
+  { name: "서비스 카테고리", href: `${marketplaceUrl}#categories` },
+  { name: "인기 서비스", href: `${marketplaceUrl}#popular-services` },
+  { name: "성공 사례", href: `${marketplaceUrl}#success-cases` },
+  { name: "전문가 하이라이트", href: `${marketplaceUrl}#experts` }
+];
+
+const buildlinkSubmenus = [
+  { name: "계약서 자동화", href: `${buildlinkUrl}#contract-automation` },
+  { name: "견적서 업로드", href: `${buildlinkUrl}#quote-upload` },
+  { name: "템플릿 갤러리", href: `${buildlinkUrl}#template-gallery` },
+  { name: "자주 묻는 질문", href: `${buildlinkUrl}#faq` }
+];
 ---
 
 <header class="fixed w-full bg-white shadow-md z-50 transition-all duration-300">
@@ -36,24 +53,43 @@ console.log('homeUrl:', homeUrl);
     </div>
     <nav>
       <ul class="flex">
-        <li class="ml-[30px] font-medium relative">
-          <a href={isHomePage ? "#home" : `${homeUrl}#home`} class="nav-link">Home</a>
+        <!-- 홈 메뉴 (드롭다운) -->
+        <li class="ml-[30px] font-medium relative dropdown">
+          <a href={homeUrl} class={`nav-link flex items-center ${isHomePage ? 'active-link' : ''}`}>
+            Home <i class="fas fa-chevron-down text-xs ml-1 transition-transform"></i>
+          </a>
+          <div class="dropdown-menu">
+            {homeSubmenus.map(item => (
+              <a href={item.href} class="dropdown-item">{item.name}</a>
+            ))}
+          </div>
         </li>
-        <li class="ml-[30px] font-medium relative">
-          <a href={isHomePage ? "#services" : `${homeUrl}#services`} class="nav-link">Services</a>
+        
+        <!-- 마켓플레이스 메뉴 (드롭다운) -->
+        <li class="ml-[30px] font-medium relative dropdown">
+          <a href={marketplaceUrl} class={`nav-link flex items-center ${isMarketplace ? 'active-link' : ''}`}>
+            Marketplace <i class="fas fa-chevron-down text-xs ml-1 transition-transform"></i>
+          </a>
+          <div class="dropdown-menu">
+            {marketplaceSubmenus.map(item => (
+              <a href={item.href} class="dropdown-item">{item.name}</a>
+            ))}
+          </div>
         </li>
-        <li class="ml-[30px] font-medium relative">
-          <a href={servicesUrl} class="nav-link">Marketplace</a>
+        
+        <!-- 빌드링크 메뉴 (드롭다운) -->
+        <li class="ml-[30px] font-medium relative dropdown">
+          <a href={buildlinkUrl} class={`nav-link flex items-center ${isBuildlink ? 'active-link' : ''}`}>
+            BuildLink <i class="fas fa-chevron-down text-xs ml-1 transition-transform"></i>
+          </a>
+          <div class="dropdown-menu">
+            {buildlinkSubmenus.map(item => (
+              <a href={item.href} class="dropdown-item">{item.name}</a>
+            ))}
+          </div>
         </li>
-        <li class="ml-[30px] font-medium relative">
-          <a href={isHomePage ? "#about" : `${homeUrl}#about`} class="nav-link">About</a>
-        </li>
-        <li class="ml-[30px] font-medium relative">
-          <a href={isHomePage ? "#projects" : `${homeUrl}#projects`} class="nav-link">Projects</a>
-        </li>
-        <li class="ml-[30px] font-medium relative">
-          <a href={buildlinkUrl} class="nav-link">BuildLink</a>
-        </li>
+        
+        <!-- 컨택트 메뉴 -->
         <li class="ml-[30px] font-medium relative">
           <a href={isHomePage ? "#contact" : `${homeUrl}#contact`} class="nav-link">Contact</a>
         </li>
@@ -86,6 +122,60 @@ console.log('homeUrl:', homeUrl);
     width: 100%;
   }
   
+  .active-link {
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+  
+  .active-link::after {
+    width: 100%;
+  }
+  
+  /* 드롭다운 메뉴 스타일 */
+  .dropdown {
+    position: relative;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: -15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 12px 0;
+    min-width: 180px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 100;
+  }
+  
+  .dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  
+  .dropdown:hover .fa-chevron-down {
+    transform: rotate(180deg);
+  }
+  
+  .dropdown-item {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+  
+  .dropdown-item:hover {
+    background-color: rgba(76, 165, 208, 0.05);
+    color: var(--accent-color);
+    padding-left: 25px;
+  }
+  
   /* 모바일 반응형 */
   @media (max-width: 768px) {
     .header-container {
@@ -94,10 +184,36 @@ console.log('homeUrl:', homeUrl);
     
     nav ul {
       margin-top: 20px;
+      flex-direction: column;
+      width: 100%;
     }
     
     nav li {
-      margin: 0 10px;
+      margin: 0;
+      width: 100%;
+      text-align: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .dropdown-menu {
+      position: static;
+      box-shadow: none;
+      padding: 5px 0;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      transition: max-height 0.3s ease;
+    }
+    
+    .dropdown.active .dropdown-menu {
+      max-height: 300px;
+    }
+    
+    .dropdown-item {
+      padding: 8px 20px;
     }
     
     .mobile-menu-toggle {
@@ -110,34 +226,93 @@ console.log('homeUrl:', homeUrl);
 </style>
 
 <script>
-  // 현재 경로에 따라 활성 링크 스타일 적용
   document.addEventListener('DOMContentLoaded', () => {
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll('.nav-link');
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
     
+    // 모바일 메뉴 토글
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const nav = document.querySelector('nav');
+    
+    if (mobileMenuToggle) {
+      mobileMenuToggle.addEventListener('click', () => {
+        nav.classList.toggle('active');
+        if (nav.classList.contains('active')) {
+          nav.style.display = 'block';
+        } else {
+          nav.style.display = 'none';
+        }
+      });
+    }
+    
+    // 모바일에서 드롭다운 토글
+    const dropdowns = document.querySelectorAll('.dropdown');
+    
+    dropdowns.forEach(dropdown => {
+      const link = dropdown.querySelector('.nav-link');
+      
+      if (window.innerWidth <= 768 && link) {
+        link.addEventListener('click', (e) => {
+          if (window.innerWidth <= 768) {
+            e.preventDefault();
+            dropdown.classList.toggle('active');
+          }
+        });
+      }
+    });
+    
+    // 현재 페이지에 맞는 메뉴 활성화
     navLinks.forEach(link => {
       const href = link.getAttribute('href');
       
-      // 현재 페이지와 링크 경로가 일치하는지 확인
       if (currentPath === href || 
           (currentPath.includes('/services') && href.includes('/services')) ||
           (currentPath.includes('/buildlink') && href.includes('/buildlink'))) {
         link.classList.add('active-link');
-        link.style.fontWeight = 'bold';
-        link.style.color = 'var(--primary-color)';
       }
     });
     
     // 해시 링크 처리
     if (window.location.hash) {
       const hash = window.location.hash;
-      navLinks.forEach(link => {
-        if (link.getAttribute('href') === hash) {
-          link.classList.add('active-link');
-          link.style.fontWeight = 'bold';
-          link.style.color = 'var(--primary-color)';
+      
+      // 드롭다운 항목 중에서 해당 해시를 가진 항목 검색
+      dropdownItems.forEach(item => {
+        const itemHref = item.getAttribute('href');
+        if (itemHref && itemHref.endsWith(hash)) {
+          item.style.fontWeight = 'bold';
+          item.style.color = 'var(--accent-color)';
+          
+          // 부모 드롭다운의 링크도 활성화
+          const parentDropdown = item.closest('.dropdown');
+          if (parentDropdown) {
+            const dropdownLink = parentDropdown.querySelector('.nav-link');
+            if (dropdownLink) {
+              dropdownLink.classList.add('active-link');
+            }
+          }
         }
       });
     }
+    
+    // 원활한 스크롤링
+    const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
+    
+    smoothScrollLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const targetId = link.getAttribute('href');
+        if (targetId.startsWith('#')) {
+          e.preventDefault();
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 100,
+              behavior: 'smooth'
+            });
+          }
+        }
+      });
+    });
   });
 </script>
