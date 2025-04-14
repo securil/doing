@@ -1,0 +1,8 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#f5f7fa"/>
+  <rect x="100" y="100" width="600" height="400" rx="20" fill="#4ca5d0" opacity="0.2"/>
+  <rect x="150" y="150" width="500" height="300" rx="10" fill="#2c4a6d" opacity="0.3"/>
+  <text x="400" y="310" font-family="Arial" font-size="24" fill="#2c4a6d" text-anchor="middle">인테리어 디자인</text>
+  <circle cx="400" cy="220" r="50" fill="#4ca5d0"/>
+  <path d="M400 170 L410 220 L400 270 L390 220 Z" fill="#2c4a6d"/>
+</svg>

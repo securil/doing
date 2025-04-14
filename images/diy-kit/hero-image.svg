@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#f3f4f6"/>
+  <rect x="60" y="100" width="300" height="200" fill="#34d399" rx="10"/>
+  <rect x="400" y="100" width="300" height="200" fill="#0d9488" rx="10"/>
+  <circle cx="210" cy="200" r="60" fill="#fff"/>
+  <circle cx="550" cy="200" r="60" fill="#fff"/>
+  <path d="M170 180h80v40h-80z" fill="#0d9488"/>
+  <path d="M510 180h80v40h-80z" fill="#34d399"/>
+  <text x="400" y="380" font-family="Arial" font-size="32" text-anchor="middle" fill="#111827">DIY 밀키트 히어로 이미지</text>
+</svg>

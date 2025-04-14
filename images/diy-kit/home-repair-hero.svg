@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#f3f4f6"/>
+  <!-- 집 모양 -->
+  <polygon points="400,50 150,200 650,200" fill="#0d9488"/>
+  <rect x="170" y="200" width="460" height="250" fill="#0d9488"/>
+  <!-- 창문 -->
+  <rect x="230" y="250" width="80" height="70" fill="#34d399"/>
+  <rect x="360" y="250" width="80" height="70" fill="#34d399"/>
+  <rect x="490" y="250" width="80" height="70" fill="#34d399"/>
+  <!-- 문 -->
+  <rect x="360" y="350" width="80" height="100" fill="#34d399"/>
+  <!-- 도구 -->
+  <path d="M550 350 L650 350 L650 370 L550 370 Z" fill="#f59e0b"/>
+  <path d="M570 330 L590 330 L590 390 L570 390 Z" fill="#f59e0b"/>
+  <circle cx="200" cy="350" r="30" fill="#f59e0b"/>
+  <text x="400" y="450" font-family="Arial" font-size="32" text-anchor="middle" fill="#fff">홈 리페어 밀키트</text>
+</svg>

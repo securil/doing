@@ -1,0 +1,30 @@
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#f5f7fa"/>
+  
+  <!-- 하늘 -->
+  <rect x="50" y="50" width="400" height="200" fill="#e0e8f0"/>
+  
+  <!-- 낡은 집 -->
+  <rect x="100" y="150" width="300" height="250" fill="#d0c0b0"/>
+  
+  <!-- 지붕 -->
+  <polygon points="100,150 250,100 400,150" fill="#a09080"/>
+  
+  <!-- 문 -->
+  <rect x="225" y="300" width="50" height="100" fill="#8c6d46"/>
+  <circle cx="265" cy="350" r="5" fill="#606060"/>
+  
+  <!-- 창문 -->
+  <rect x="150" y="200" width="60" height="60" fill="#b0b0b0"/>
+  <line x1="180" y1="200" x2="180" y2="260" stroke="#909090" stroke-width="2"/>
+  <line x1="150" y1="230" x2="210" y2="230" stroke="#909090" stroke-width="2"/>
+  
+  <rect x="290" y="200" width="60" height="60" fill="#b0b0b0"/>
+  <line x1="320" y1="200" x2="320" y2="260" stroke="#909090" stroke-width="2"/>
+  <line x1="290" y1="230" x2="350" y2="230" stroke="#909090" stroke-width="2"/>
+  
+  <!-- 잔디 -->
+  <rect x="50" y="400" width="400" height="50" fill="#c0d0a0"/>
+  
+  <text x="250" y="250" font-family="Arial" font-size="20" text-anchor="middle" fill="#606060">오래된 주택 외관</text>
+</svg>

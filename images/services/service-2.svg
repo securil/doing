@@ -1,0 +1,8 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#f5f7fa"/>
+  <rect x="100" y="100" width="600" height="400" rx="20" fill="#3e6189" opacity="0.2"/>
+  <polygon points="400,150 600,350 200,350" fill="#2c4a6d" opacity="0.3"/>
+  <text x="400" y="310" font-family="Arial" font-size="24" fill="#2c4a6d" text-anchor="middle">상업 공간 리모델링</text>
+  <rect x="350" y="200" width="100" height="70" fill="#4ca5d0"/>
+  <rect x="370" y="230" width="60" height="40" fill="#f5f7fa"/>
+</svg>
